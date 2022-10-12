@@ -1,3 +1,3 @@
 export function InvalidInputField(props) {
-  return null;
+  return <div>Please verify your domain, input field</div>;
 }
