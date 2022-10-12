@@ -1,13 +1,13 @@
-import { BlockInput } from "./BlockInput";
+import { Block } from "./Block";
 
 const Blocks = ({ blocks }) => {
-  let blocksList = blocks.map((block, index) => (
-    <div data-testid={`${block.name}Block`} key={index}>
-      {block.name}
-      <BlockInput input={block.input} />
-    </div>
-  ));
-  return <>{blocksList}</>;
+  return (
+    <>
+      {blocks.map((block, index) => (
+        <Block block={block} key={index} />
+      ))}{" "}
+    </>
+  );
 };
 
 export default Blocks;
