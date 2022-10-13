@@ -6,4 +6,5 @@ describe("Number Filed", () => {
     render(<NumberField input={10} />);
     expect(screen.getByDisplayValue(10)).not.toBeNull();
   });
+  // test("should update when value is filled");
 });
