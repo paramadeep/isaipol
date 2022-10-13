@@ -1,8 +1,17 @@
-import { render, screen } from '@testing-library/react'
-import App from './App'
+import { render, screen } from "@testing-library/react";
+import App from "./App";
 
-test('renders learn react link', () => {
+jest.mock("./loadedDomain", () => {
+  return {
+    name: "ice cream",
+  };
+});
+
+jest.mock("./components/Composer", () => {
+  return { Composer: ({ domain }) => <div>{`Composer-${domain.name}`}</div> };
+});
+
+test("renders learn react link", () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i)
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByText("Composer-ice cream")).toBeVisible();
 });
