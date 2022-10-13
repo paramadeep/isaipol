@@ -2,11 +2,9 @@ import { render, screen } from "@testing-library/react";
 import { Composer } from "./Composer";
 
 jest.mock("./Blocks", () => {
-  return {
-    Blocks: ({ blocks }) => (
-      <div>{`blocks-${blocks.map((b) => b.name).join("-")}`}</div>
-    ),
-  };
+  return ({ blocks }) => (
+    <div>{`blocks-${blocks.map((b) => b.name).join("-")}`}</div>
+  );
 });
 
 describe("Composer", () => {

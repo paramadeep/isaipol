@@ -1,10 +1,8 @@
 import { render, screen } from "@testing-library/react";
-import { Blocks } from "./Blocks";
+import Blocks from "./Blocks";
 
 jest.mock("./Block", () => {
-  return {
-    Block: ({ block }) => <div>{`Block-${block.name}-${block.input}`}</div>,
-  };
+  return ({ block }) => <div>{`block-${block.name}-${block.input}`}</div>;
 });
 
 describe("Blocks", () => {
@@ -14,7 +12,7 @@ describe("Blocks", () => {
       { name: "dimension", input: 20 },
     ];
     render(<Blocks blocks={blocks} />);
-    expect(screen.getByText("Block-quantity-10")).toBeVisible();
-    expect(screen.getByText("Block-dimension-20")).toBeVisible();
+    expect(screen.getByText("block-quantity-10")).toBeVisible();
+    expect(screen.getByText("block-dimension-20")).toBeVisible();
   });
 });

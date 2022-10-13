@@ -1,10 +1,13 @@
-import { BlockInput } from "./BlockInput";
+import BlockInput from "./BlockInput";
+import { Card } from "react-bootstrap";
 
-export function Block({ block }) {
-  return (
-    <div data-testid={`${block.name}Block`}>
-      {block.name}
+const Block = ({ block }) => (
+  <Card data-testid={`${block.name}Block`}>
+    <Card.Header>{block.name}</Card.Header>
+    <Card.Body>
       <BlockInput input={block.input} />
-    </div>
-  );
-}
+    </Card.Body>
+  </Card>
+);
+
+export default Block;

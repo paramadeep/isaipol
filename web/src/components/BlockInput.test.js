@@ -1,16 +1,16 @@
 import { render, screen } from "@testing-library/react";
-import { BlockInput } from "./BlockInput";
+import BlockInput from "./BlockInput";
 
 jest.mock("./fields/NumberField", () => {
-  return { NumberField: ({ input }) => <div>{`Number${input}`}</div> };
+  return ({ input }) => <div>{`Number${input}`}</div>;
 });
 
 jest.mock("./fields/ArrayField", () => {
-  return { ArrayField: ({ input }) => <div>{`Array${input.length}`}</div> };
+  return ({ input }) => <div>{`Array${input.length}`}</div>;
 });
 
 jest.mock("./fields/InvalidInputField", () => {
-  return { InvalidInputField: ({ input }) => <div>{`Invalid-${input}`}</div> };
+  return ({ input }) => <div>{`Invalid-${input}`}</div>;
 });
 
 describe("Block Input", () => {

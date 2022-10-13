@@ -1,6 +1,6 @@
-import { Block } from "./Block";
+import Block from "./Block";
 
-export const Blocks = ({ blocks }) => {
+const Blocks = ({ blocks }) => {
   return (
     <>
       {blocks.map((block, index) => (
@@ -9,3 +9,5 @@ export const Blocks = ({ blocks }) => {
     </>
   );
 };
+
+export default Blocks;

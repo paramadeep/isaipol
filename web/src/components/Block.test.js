@@ -1,8 +1,8 @@
 import { render, screen, within } from "@testing-library/react";
-import { Block } from "./Block";
+import Block from "./Block";
 
 jest.mock("./BlockInput", () => {
-  return { BlockInput: ({ input }) => <div>{`BlockInput${input}`}</div> };
+  return ({ input }) => <div>{`BlockInput${input}`}</div>;
 });
 
 describe("Blocks", () => {

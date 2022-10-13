@@ -1,5 +1,5 @@
 import { render, screen, within } from "@testing-library/react";
-import { ArrayField } from "./ArrayField";
+import ArrayField from "./ArrayField";
 
 describe("Array Filed", () => {
   test("should render array of input as select", () => {

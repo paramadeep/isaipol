@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { InvalidInputField } from "./InvalidInputField";
+import InvalidInputField from "./InvalidInputField";
 
 describe("Invalid Input Field", () => {
   test("should display invalid invalid test message", () => {

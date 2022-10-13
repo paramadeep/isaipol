@@ -1,4 +1,4 @@
-import { Blocks } from "./Blocks";
+import Blocks from "./Blocks";
 
 export function Composer({ domain }) {
   const defaultBlocks = domain.blocks.filter((block) =>
@@ -6,7 +6,7 @@ export function Composer({ domain }) {
   );
   return (
     <>
-      <Blocks blocks={defaultBlocks} />{" "}
+      <Blocks blocks={defaultBlocks} />
     </>
   );
 }

@@ -7,4 +7,13 @@ let domain = {
     { name: "container", input: ["cup", "cone"] },
   ],
 };
+// let domain = {
+//   name: "sub",
+//   defaults: ["length", "bread", "Toppings"],
+//   blocks: [
+//     { name: "length", input: 1 },
+//     { name: "bread", input: ["plain", "garlic"] },
+//     { name: "Toppings", input: ["onion", "tomato"] },
+//   ],
+// };
 export default domain;

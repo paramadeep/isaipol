@@ -1,7 +1,5 @@
-export function NumberField({ input }) {
-  return (
-    <>
-      <input type={"number"} defaultValue={input} />
-    </>
-  );
+import { Form } from "react-bootstrap";
+
+export default function NumberField({ input }) {
+  return <Form.Control type={"number"} defaultValue={input} />;
 }

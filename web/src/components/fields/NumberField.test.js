@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { NumberField } from "./NumberField";
+import NumberField from "./NumberField";
 
 describe("Number Filed", () => {
   test("should render number input", () => {

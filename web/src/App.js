@@ -1,14 +1,20 @@
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Composer } from "./components/Composer";
 import { useState } from "react";
 import loadedDomain from "./loadedDomain";
+import { Col, Container, Row } from "react-bootstrap";
 
 function App() {
   let [domain] = useState(loadedDomain);
   return (
-    <div className="App">
-      <Composer domain={domain} />
-    </div>
+    <Container>
+      <Row className={"justify-content-center"}>
+        <Col>
+          <Composer domain={domain} />
+        </Col>
+      </Row>
+    </Container>
   );
 }
 

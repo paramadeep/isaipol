@@ -1,11 +1,12 @@
+import { Form } from "react-bootstrap";
+
 function Options({ options }) {
   return options.map((option, index) => <option key={index}>{option}</option>);
 }
 
-export function ArrayField({ input }) {
-  return (
-    <select data-testid={"arrayField"}>
-      <Options options={input} />
-    </select>
-  );
-}
+const ArrayField = ({ input }) => (
+  <Form.Select data-testid={"arrayField"}>
+    <Options options={input} />
+  </Form.Select>
+);
+export default ArrayField;
