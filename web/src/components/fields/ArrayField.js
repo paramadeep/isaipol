@@ -4,8 +4,11 @@ function Options({ options }) {
   return options.map((option, index) => <option key={index}>{option}</option>);
 }
 
-const ArrayField = ({ input }) => (
-  <Form.Select data-testid={"arrayField"}>
+const ArrayField = ({ input, update }) => (
+  <Form.Select
+    data-testid={"arrayField"}
+    onChange={(e) => update(e.target.value)}
+  >
     <Options options={input} />
   </Form.Select>
 );
