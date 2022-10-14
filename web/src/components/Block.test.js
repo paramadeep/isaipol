@@ -19,4 +19,11 @@ describe("Blocks", () => {
       within(screen.getByTestId("qBlock")).getByText("BlockInput10")
     ).toBeVisible();
   });
+
+  test("should update", () => {
+    render(<Block block={{ name: "q", input: 10 }} />);
+    expect(
+      within(screen.getByTestId("qBlock")).getByText("BlockInput10")
+    ).toBeVisible();
+  });
 });

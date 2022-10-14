@@ -1,34 +1,28 @@
 import Blocks from "./Blocks";
 import { useEffect, useState } from "react";
 import Output from "./Output";
-import { useAtom } from "jotai";
-import outputAtom from "../states/outputAtom";
+
+function getInputs(blocks) {
+  const inputMap = {};
+  blocks.map((b) => (inputMap[b.name] = b.value));
+  return inputMap;
+}
 
 export function Composer({ domain }) {
-  let [blocks, setBlocks] = useState([]);
-  let [computes, setComputes] = useState([]);
-  let [output, setOutput] = useAtom(outputAtom);
+  let [blocks] = useState(domain.defaultBlocks);
+  let [output, setOutput] = useState({ ...domain.initialOutput });
   useEffect(() => {
-    const defaultBlocks = domain.blocks.filter((block) =>
-      domain.defaults.includes(block.name)
-    );
-    setBlocks(defaultBlocks);
-  }, []);
-  useEffect(() => {
-    const computeBlocks = blocks
+    const localOutput = { ...domain.initialOutput };
+    const input = getInputs(blocks);
+    blocks
       .filter((b) => b.compute != null)
-      .map((b) => b.compute);
-    setComputes(computeBlocks);
-  }, [blocks]);
-  useEffect(() => {
-    let localOut = { ...output };
-    computes.forEach((comp) => comp(localOut));
-    setOutput(localOut);
-  }, [computes]);
+      .forEach((b) => b.compute(input, localOutput));
+    setOutput(localOutput);
+  }, [blocks, domain.initialOutput]);
   return (
     <>
       <Blocks blocks={blocks} />
-      <Output display={output[domain.display]} />
+      <Output values={output} fields={domain.output} />
     </>
   );
 }

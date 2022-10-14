@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { Composer } from "./Composer";
-import { Provider } from "jotai";
-import outputAtom from "../states/outputAtom";
+import enrichDomain from "../services/domain/enrichDomain";
 
 jest.mock("./Blocks", () => {
   return ({ blocks }) => (
@@ -10,15 +9,23 @@ jest.mock("./Blocks", () => {
 });
 
 jest.mock("./Output", () => {
-  return ({ display }) => <div>{display}</div>;
+  return ({ values, fields }) => {
+    return <div>{values[fields[0]]}</div>;
+  };
 });
 
 describe("Composer", () => {
   test("should load default blocks from domain", () => {
     let domain = {
       defaults: ["quantity", "dimension"],
-      blocks: [{ name: "quantity" }, { name: "dimension" }, { name: "finish" }],
+      blocks: [
+        { name: "quantity", input: 5 },
+        { name: "dimension", input: 5 },
+        { name: "finish", input: 5 },
+      ],
+      output: [],
     };
+    enrichDomain(domain);
     render(<Composer domain={domain} />);
     expect(screen.getByText("blocks-quantity-dimension")).toBeVisible();
   });
@@ -30,18 +37,15 @@ describe("Composer", () => {
         {
           name: "quantity",
           input: 5,
-          compute: (o) => {
-            o.cost = o.quantity * 5;
+          compute: (i, o) => {
+            o.cost = o.cost + i.quantity * 5;
           },
         },
       ],
-      display: "cost",
+      output: ["cost"],
     };
-    render(
-      <Provider initialValues={[[outputAtom, { quantity: 5 }]]}>
-        <Composer domain={domain} />
-      </Provider>
-    );
+    enrichDomain(domain);
+    render(<Composer domain={domain} />);
     expect(screen.getByText("25")).toBeVisible();
   });
 });

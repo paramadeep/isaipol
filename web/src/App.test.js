@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import App from "./App";
 
-jest.mock("./loadedDomain", () => {
+jest.mock("./services/domain/inlineDomain", () => {
   return {
     name: "ice cream",
   };

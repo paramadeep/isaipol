@@ -2,7 +2,7 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Composer } from "./components/Composer";
 import { useState } from "react";
-import loadedDomain from "./loadedDomain";
+import loadedDomain from "./services/domain/inlineDomain";
 import { Col, Container, Row } from "react-bootstrap";
 
 function App() {
