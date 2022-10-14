@@ -9,7 +9,7 @@ function getInputs(blocks) {
 }
 
 export function Composer({ domain }) {
-  let [blocks] = useState(domain.defaultBlocks);
+  let [blocks, setBlocks] = useState(domain.defaultBlocks);
   let [output, setOutput] = useState({ ...domain.initialOutput });
   useEffect(() => {
     const localOutput = { ...domain.initialOutput };
@@ -21,7 +21,7 @@ export function Composer({ domain }) {
   }, [blocks, domain.initialOutput]);
   return (
     <>
-      <Blocks blocks={blocks} />
+      <Blocks blocks={blocks} setBlocks={setBlocks} />
       <Output values={output} fields={domain.output} />
     </>
   );

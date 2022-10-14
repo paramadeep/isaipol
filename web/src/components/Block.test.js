@@ -2,7 +2,9 @@ import { render, screen, within } from "@testing-library/react";
 import Block from "./Block";
 
 jest.mock("./BlockInput", () => {
-  return ({ input }) => <div>{`BlockInput${input}`}</div>;
+  return ({ input, update, value, type }) => (
+    <div>{`BlockInput-${input}-${update}-${value}-${type}`}</div>
+  );
 });
 
 describe("Blocks", () => {
@@ -14,16 +16,16 @@ describe("Blocks", () => {
   });
 
   test("should render input fields", () => {
-    render(<Block block={{ name: "q", input: 10 }} />);
+    render(
+      <Block
+        block={{ name: "q", value: "value", input: "input", type: "type" }}
+        update={"update"}
+      />
+    );
     expect(
-      within(screen.getByTestId("qBlock")).getByText("BlockInput10")
-    ).toBeVisible();
-  });
-
-  test("should update", () => {
-    render(<Block block={{ name: "q", input: 10 }} />);
-    expect(
-      within(screen.getByTestId("qBlock")).getByText("BlockInput10")
+      within(screen.getByTestId("qBlock")).getByText(
+        "BlockInput-input-update-value-type"
+      )
     ).toBeVisible();
   });
 });

@@ -12,8 +12,23 @@ function getValueByType(input) {
   );
 }
 
+function getBlockType(input) {
+  if (typeof input == "number") {
+    return "number";
+  }
+  if (Array.isArray(input)) {
+    return "array";
+  }
+  throw new Error(
+    `Invalid Input ${JSON.stringify(
+      input
+    )}, only numbers and string arrays are allowed`
+  );
+}
+
 const enrichDomainBlocks = (domain) => {
   domain.blocks.forEach((b) => (b.value = getValueByType(b.input)));
+  domain.blocks.forEach((b) => (b.type = getBlockType(b.input)));
 };
 
 const updateDefaultBlocks = (domain) => {

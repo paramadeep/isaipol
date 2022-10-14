@@ -4,16 +4,29 @@ import userEvent from "@testing-library/user-event";
 
 describe("Array Filed", () => {
   test("should render array of input as select", () => {
-    render(<ArrayField input={["strawberry"]} />);
+    render(<ArrayField input={["strawberry", "venila"]} value={"venila"} />);
     let arrayField = screen.getByTestId("arrayField");
     expect(arrayField).not.toBeNull();
+    expect(within(arrayField).getAllByRole("option").length).toBe(2);
     expect(within(arrayField).getByText("strawberry")).not.toBeNull();
+    expect(within(arrayField).getByText("venila")).not.toBeNull();
+    expect(screen.getByRole("option", { name: "venila" }).selected).toBe(true);
   });
+
   test("should update when value is filled", () => {
     const mockUpdate = jest.fn();
-    render(<ArrayField input={["strawberry", "venial"]} update={mockUpdate} />);
+    render(
+      <ArrayField
+        input={["strawberry", "venila"]}
+        update={mockUpdate}
+        value={"strawberry"}
+      />
+    );
     const arrayField = screen.getByTestId("arrayField");
-    userEvent.selectOptions(arrayField, "venial");
-    expect(mockUpdate).toBeCalledWith("venial");
+    expect(screen.getByRole("option", { name: "strawberry" }).selected).toBe(
+      true
+    );
+    userEvent.selectOptions(arrayField, "venila");
+    expect(mockUpdate).toBeCalledWith("venila");
   });
 });

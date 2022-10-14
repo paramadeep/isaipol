@@ -2,28 +2,24 @@ import { render, screen } from "@testing-library/react";
 import BlockInput from "./BlockInput";
 
 jest.mock("./fields/NumberField", () => {
-  return ({ input }) => <div>{`Number${input}`}</div>;
+  return ({ value, update }) => <div>{`Number${value}-${update}`}</div>;
 });
 
 jest.mock("./fields/ArrayField", () => {
-  return ({ input }) => <div>{`Array${input.length}`}</div>;
-});
-
-jest.mock("./fields/InvalidInputField", () => {
-  return ({ input }) => <div>{`Invalid-${input}`}</div>;
+  return ({ input, update, value }) => (
+    <div>{`Array${input.join("-")}-${update}-${value}`}</div>
+  );
 });
 
 describe("Block Input", () => {
   test("should render number field for numeric input", () => {
-    render(<BlockInput input={10} />);
-    expect(screen.getByText("Number10")).not.toBeNull();
+    render(<BlockInput type={"number"} input={19} update={11} value={12} />);
+    expect(screen.getByText("Number12-11")).not.toBeNull();
   });
   test("should render dropdown field for array input", () => {
-    render(<BlockInput input={[10]} />);
-    expect(screen.getByText("Array1")).not.toBeNull();
-  });
-  test("should show invalid field when input is not", () => {
-    render(<BlockInput input={"dingdong"} />);
-    expect(screen.getByText("Invalid-dingdong")).not.toBeNull();
+    render(
+      <BlockInput type={"array"} input={[10, 11]} update={12} value={13} />
+    );
+    expect(screen.getByText("Array10-11-12-13")).not.toBeNull();
   });
 });
