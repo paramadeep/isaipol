@@ -23,4 +23,19 @@ describe("enrichDomain", () => {
       'Invalid Input "dee", only numbers and string arrays are allowed'
     );
   });
+  test("should return default/dynamic blocks", () => {
+    const domain = {
+      defaults: ["a"],
+      output: [],
+      blocks: [
+        { name: "a", input: 10 },
+        { name: "b", input: 1 },
+      ],
+    };
+    enrichDomain(domain);
+    expect(domain.defaultBlocks.length).toBe(1);
+    expect(domain.defaultBlocks[0].name).toBe("a");
+    expect(domain.dynamicBlocks.length).toBe(1);
+    expect(domain.dynamicBlocks[0].name).toBe("b");
+  });
 });

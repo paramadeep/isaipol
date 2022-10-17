@@ -10,7 +10,7 @@ function App() {
   return (
     <Container>
       <Row className={"justify-content-center"}>
-        <Col>
+        <Col className={"col-lg-4"}>
           <Composer domain={domain} />
         </Col>
       </Row>

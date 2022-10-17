@@ -1,10 +1,11 @@
 import BlockInput from "./BlockInput";
-import { Card } from "react-bootstrap";
+import { Card, CloseButton } from "react-bootstrap";
 
 const Block = ({ block, update }) => (
   <Card data-testid={`${block.name}Block`}>
-    <Card.Header>{block.name}</Card.Header>
     <Card.Body>
+      <CloseButton className={"float-end align-top"} style={{ width: "2px" }} />
+      <Card.Subtitle>{block.name}</Card.Subtitle>
       <BlockInput
         input={block.input}
         update={update}

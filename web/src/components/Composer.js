@@ -1,6 +1,8 @@
 import Blocks from "./Blocks";
 import { useEffect, useState } from "react";
 import Output from "./Output";
+import AddBlock from "./AddBlock";
+import { Card } from "react-bootstrap";
 
 function getInputs(blocks) {
   const inputMap = {};
@@ -21,8 +23,14 @@ export function Composer({ domain }) {
   }, [blocks, domain.initialOutput]);
   return (
     <>
-      <Blocks blocks={blocks} setBlocks={setBlocks} />
-      <Output values={output} fields={domain.output} />
+      <Card>
+        <Card.Header>{domain.name}</Card.Header>
+        <Card.Body>
+          <Blocks blocks={blocks} setBlocks={setBlocks} />
+          <AddBlock blocks={domain.dynamicBlocks} setBlocks={setBlocks} />
+          <Output values={output} fields={domain.output} />
+        </Card.Body>
+      </Card>
     </>
   );
 }
