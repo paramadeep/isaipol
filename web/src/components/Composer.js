@@ -13,6 +13,7 @@ function getInputs(blocks) {
 export function Composer({ domain }) {
   let [blocks, setBlocks] = useState(domain.defaultBlocks);
   let [output, setOutput] = useState({ ...domain.initialOutput });
+  let [addableBlocks, setAddableBlocks] = useState(domain.dynamicBlocks);
   useEffect(() => {
     const localOutput = { ...domain.initialOutput };
     const input = getInputs(blocks);
@@ -21,13 +22,21 @@ export function Composer({ domain }) {
       .forEach((b) => b.compute(input, localOutput));
     setOutput(localOutput);
   }, [blocks, domain.initialOutput]);
+  const addNewBlock = (newBlock) => {
+    const newBlocks = [...blocks, newBlock];
+    setBlocks(newBlocks);
+    const newAddableBlocks = [...addableBlocks].filter(
+      (b) => b.name != newBlock.name
+    );
+    setAddableBlocks(newAddableBlocks);
+  };
   return (
     <>
       <Card>
         <Card.Header>{domain.name}</Card.Header>
         <Card.Body>
           <Blocks blocks={blocks} setBlocks={setBlocks} />
-          <AddBlock blocks={domain.dynamicBlocks} setBlocks={setBlocks} />
+          <AddBlock blocks={addableBlocks} addNewBlock={addNewBlock} />
           <Output values={output} fields={domain.output} />
         </Card.Body>
       </Card>

@@ -1,21 +1,22 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { Composer } from "./Composer";
 import userEvent from "@testing-library/user-event";
 
-const updatableComponent = (componentName) => {
+jest.mock("./Blocks", () => {
   return ({ blocks, setBlocks }) => (
     <div
-      data-testid={componentName}
+      data-testid={"blocks"}
       onClick={() => setBlocks([{ name: "quantity", input: 5 }])}
-    >{`${componentName}-${blocks.map((b) => b.name).join("-")}`}</div>
+    >{`${"blocks"}-${blocks.map((b) => b.name).join("-")}`}</div>
   );
-};
-
-jest.mock("./Blocks", () => {
-  return updatableComponent("blocks");
 });
 jest.mock("./AddBlock", () => {
-  return updatableComponent("add");
+  return ({ blocks, addNewBlock }) => (
+    <div
+      data-testid={"add"}
+      onClick={() => addNewBlock({ name: "dynamic", input: 5 })}
+    >{`${"add"}-${blocks.map((b) => b.name).join("-")}`}</div>
+  );
 });
 
 jest.mock("./Output", () => {
@@ -58,7 +59,7 @@ describe("Composer", () => {
     expect(screen.getByTestId("blocks")).toHaveTextContent("blocks-quantity");
   });
 
-  test("should update blocks list on add component update", () => {
+  const baseAddTest = () => {
     const domain = getDomain();
     domain.defaultBlocks = [{ name: "default", input: 5 }];
     domain.dynamicBlocks = [{ name: "dynamic", input: 5 }];
@@ -67,7 +68,18 @@ describe("Composer", () => {
     expect(addBlock).toHaveTextContent("dynamic");
     expect(addBlock).not.toHaveTextContent("default");
     userEvent.click(addBlock);
-    expect(screen.getByTestId("blocks")).toHaveTextContent("blocks-quantity");
+  };
+
+  test("should update blocks list on add component update", () => {
+    baseAddTest();
+    expect(screen.getByTestId("blocks")).toHaveTextContent(
+      "blocks-default-dynamic"
+    );
+  });
+
+  test("should remove blocks from add blocks when it gets added to displayed block", async () => {
+    baseAddTest();
+    expect(screen.getByTestId("add")).not.toHaveTextContent("add-dynamic");
   });
 
   test("should load output of domain", () => {
