@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Output from "./Output";
 import AddBlock from "./AddBlock";
 import { Card } from "react-bootstrap";
-import block from "./Block";
 
 function getInputs(blocks) {
   const inputMap = {};

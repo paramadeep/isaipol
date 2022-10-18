@@ -3,7 +3,7 @@ import Block from "./Block";
 const Blocks = ({ blocks, setBlocks, removeBlock }) => {
   const updateBlock = (blockName, value) => {
     const newBlocks = [...blocks];
-    newBlocks.find((b) => b.name == blockName).value = value;
+    newBlocks.find((b) => b.name === blockName).value = value;
     setBlocks(newBlocks);
   };
   return (
