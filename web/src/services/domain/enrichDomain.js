@@ -32,15 +32,10 @@ const enrichDomainBlocks = (domain) => {
 };
 
 const updateDefaultBlocks = (domain) => {
-  domain.defaultBlocks = domain.blocks.filter((block) =>
-    domain.defaults.includes(block.name)
-  );
-};
-
-const updateDynamicBlocks = (domain) => {
-  domain.dynamicBlocks = domain.blocks.filter(
-    (block) => !domain.defaults.includes(block.name)
-  );
+  domain.blocks.forEach((block) => {
+    block.isDefault = domain.defaults.includes(block.name);
+    block.show = domain.defaults.includes(block.name);
+  });
 };
 
 const updateInitialOutput = (domain) => {
@@ -54,6 +49,5 @@ const enrichDomain = (domain) => {
   enrichDomainBlocks(domain);
   updateDefaultBlocks(domain);
   updateInitialOutput(domain);
-  updateDynamicBlocks(domain);
 };
 export default enrichDomain;

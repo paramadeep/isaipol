@@ -33,9 +33,9 @@ describe("enrichDomain", () => {
       ],
     };
     enrichDomain(domain);
-    expect(domain.defaultBlocks.length).toBe(1);
-    expect(domain.defaultBlocks[0].name).toBe("a");
-    expect(domain.dynamicBlocks.length).toBe(1);
-    expect(domain.dynamicBlocks[0].name).toBe("b");
+    expect(domain.blocks.find((b) => b.name === "a").show).toBeTruthy();
+    expect(domain.blocks.find((b) => b.name === "b").show).toBeFalsy();
+    expect(domain.blocks.find((b) => b.name === "a").isDefault).toBeTruthy();
+    expect(domain.blocks.find((b) => b.name === "b").isDefault).toBeFalsy();
   });
 });

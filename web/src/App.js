@@ -6,6 +6,9 @@ import loadedDomain from "./services/domain/inlineDomain";
 import { Col, Container, Row } from "react-bootstrap";
 
 function App() {
+  // useEffect(() => {
+  //   loadDomain();
+  // }, []);
   let [domain] = useState(loadedDomain);
   return (
     <Container>

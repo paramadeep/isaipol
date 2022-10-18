@@ -11,28 +11,26 @@ function getInputs(blocks) {
 }
 
 export function Composer({ domain }) {
-  let [blocks, setBlocks] = useState(domain.defaultBlocks);
+  let [blocks, setBlocks] = useState(domain.blocks);
   let [output, setOutput] = useState({ ...domain.initialOutput });
-  let [addableBlocks, setAddableBlocks] = useState(domain.dynamicBlocks);
   useEffect(() => {
     const localOutput = { ...domain.initialOutput };
     const input = getInputs(blocks);
     blocks
+      .filter((b) => b.show)
       .filter((b) => b.compute != null)
       .forEach((b) => b.compute(input, localOutput));
     setOutput(localOutput);
   }, [blocks, domain.initialOutput]);
   const addNewBlock = (newBlock) => {
-    const newBlocks = [...blocks, newBlock];
-    const newAddableBlocks = [...addableBlocks].filter(
-      (b) => b.name !== newBlock.name
-    );
+    const newBlocks = [...blocks];
+    newBlocks.find((b) => b.name === newBlock.name).show = true;
     setBlocks(newBlocks);
-    setAddableBlocks(newAddableBlocks);
   };
   const removeBlock = (blockToRemove) => {
-    setBlocks(blocks.filter((block) => block.name !== blockToRemove.name));
-    setAddableBlocks([...addableBlocks, blockToRemove]);
+    const newBlocks = [...blocks];
+    newBlocks.find((b) => b.name === blockToRemove.name).show = false;
+    setBlocks(newBlocks);
   };
   return (
     <>
@@ -40,11 +38,14 @@ export function Composer({ domain }) {
         <Card.Header>{domain.name}</Card.Header>
         <Card.Body>
           <Blocks
-            blocks={blocks}
+            blocks={blocks.filter((block) => block.show)}
             setBlocks={setBlocks}
             removeBlock={removeBlock}
           />
-          <AddBlock blocks={addableBlocks} addNewBlock={addNewBlock} />
+          <AddBlock
+            blocks={blocks.filter((block) => !(block.show || block.default))}
+            addNewBlock={addNewBlock}
+          />
           <Output values={output} fields={domain.output} />
         </Card.Body>
       </Card>
