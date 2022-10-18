@@ -24,10 +24,10 @@ export function Composer({ domain }) {
   }, [blocks, domain.initialOutput]);
   const addNewBlock = (newBlock) => {
     const newBlocks = [...blocks, newBlock];
-    setBlocks(newBlocks);
     const newAddableBlocks = [...addableBlocks].filter(
-      (b) => b.name != newBlock.name
+      (b) => b.name !== newBlock.name
     );
+    setBlocks(newBlocks);
     setAddableBlocks(newAddableBlocks);
   };
   return (
