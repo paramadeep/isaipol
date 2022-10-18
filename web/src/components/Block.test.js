@@ -35,4 +35,14 @@ describe("Blocks", () => {
     userEvent.click(screen.getByTestId("remove-block-quantity"));
     expect(mockRemoveBlock).toBeCalled();
   });
+  test("should now show remove for default item", () => {
+    const mockRemoveBlock = jest.fn();
+    render(
+      <Block
+        block={{ name: "quantity", isDefault: true }}
+        remove={mockRemoveBlock}
+      />
+    );
+    expect(screen.queryByTestId("remove-block-quantity")).toBeNull();
+  });
 });
