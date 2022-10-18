@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Output from "./Output";
 import AddBlock from "./AddBlock";
 import { Card } from "react-bootstrap";
+import block from "./Block";
 
 function getInputs(blocks) {
   const inputMap = {};
@@ -30,12 +31,20 @@ export function Composer({ domain }) {
     setBlocks(newBlocks);
     setAddableBlocks(newAddableBlocks);
   };
+  const removeBlock = (blockToRemove) => {
+    setBlocks(blocks.filter((block) => block.name !== blockToRemove.name));
+    setAddableBlocks([...addableBlocks, blockToRemove]);
+  };
   return (
     <>
       <Card>
         <Card.Header>{domain.name}</Card.Header>
         <Card.Body>
-          <Blocks blocks={blocks} setBlocks={setBlocks} />
+          <Blocks
+            blocks={blocks}
+            setBlocks={setBlocks}
+            removeBlock={removeBlock}
+          />
           <AddBlock blocks={addableBlocks} addNewBlock={addNewBlock} />
           <Output values={output} fields={domain.output} />
         </Card.Body>

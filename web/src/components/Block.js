@@ -1,10 +1,15 @@
 import BlockInput from "./BlockInput";
 import { Card, CloseButton } from "react-bootstrap";
 
-const Block = ({ block, update }) => (
+const Block = ({ block, update, remove }) => (
   <Card data-testid={`${block.name}Block`}>
     <Card.Body>
-      <CloseButton className={"float-end align-top"} style={{ width: "2px" }} />
+      <CloseButton
+        data-testid={`remove-block-${block.name}`}
+        onClick={remove}
+        className={"float-end align-top"}
+        style={{ width: "2px" }}
+      />
       <Card.Subtitle>{block.name}</Card.Subtitle>
       <BlockInput
         input={block.input}

@@ -3,11 +3,17 @@ import { Composer } from "./Composer";
 import userEvent from "@testing-library/user-event";
 
 jest.mock("./Blocks", () => {
-  return ({ blocks, setBlocks }) => (
-    <div
-      data-testid={"blocks"}
-      onClick={() => setBlocks([{ name: "quantity", input: 5 }])}
-    >{`${"blocks"}-${blocks.map((b) => b.name).join("-")}`}</div>
+  return ({ blocks, setBlocks, removeBlock }) => (
+    <>
+      <div
+        data-testid={"blocks"}
+        onClick={() => setBlocks([{ name: "quantity", input: 5 }])}
+      >{`${"blocks"}-${blocks.map((b) => b.name).join("-")}`}</div>
+      <button
+        data-testid={"remove"}
+        onClick={() => removeBlock({ name: "dynamic" })}
+      />
+    </>
   );
 });
 jest.mock("./AddBlock", () => {
@@ -80,6 +86,15 @@ describe("Composer", () => {
   test("should remove blocks from add blocks when it gets added to displayed block", async () => {
     baseAddTest();
     expect(screen.getByTestId("add")).not.toHaveTextContent("add-dynamic");
+  });
+
+  test.todo("should not remove default blocks");
+  test("should remove removed block", () => {
+    const domain = getDomain();
+    render(<Composer domain={domain} />);
+    userEvent.click(screen.getByTestId("add"));
+    userEvent.click(screen.getByTestId("remove"));
+    expect(screen.getByText("blocks-")).toBeVisible();
   });
 
   test("should load output of domain", () => {
