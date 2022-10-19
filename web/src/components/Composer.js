@@ -1,8 +1,9 @@
 import Blocks from "./Blocks";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Output from "./Output";
 import AddBlock from "./AddBlock";
 import { Card } from "react-bootstrap";
+import { atom, useAtom } from "jotai";
 
 function getInputs(blocks) {
   const inputMap = {};
@@ -10,9 +11,22 @@ function getInputs(blocks) {
   return inputMap;
 }
 
-const Composer = ({ lane }) => {
-  let [blocks, setBlocks] = useState(lane.blocks);
-  let [output, setOutput] = useState({ ...lane.initialOutput });
+const Composer = ({ laneAtom }) => {
+  const [lane] = useAtom(laneAtom);
+  const blocksAtom = useMemo(
+    () =>
+      atom(
+        (get) => get(laneAtom).blocks,
+        (get, set, newBlocks) => {
+          const lane = get(laneAtom);
+          const newLane = { ...lane, blocks: newBlocks };
+          set(laneAtom, newLane);
+        }
+      ),
+    [laneAtom]
+  );
+  const [blocks, setBlocks] = useAtom(blocksAtom);
+  const [output, setOutput] = useState({ ...lane.initialOutput });
   useEffect(() => {
     const localOutput = { ...lane.initialOutput };
     const input = getInputs(blocks);

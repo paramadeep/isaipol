@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import Composer from "./Composer";
 import userEvent from "@testing-library/user-event";
+import { atom } from "jotai";
 
 jest.mock("./Blocks", () => {
   return ({ blocks, setBlocks, removeBlock }) => (
@@ -39,8 +40,8 @@ const getLane = () => ({
 
 describe("Composer", () => {
   test("should show title", () => {
-    let lane = getLane();
-    render(<Composer lane={lane} />);
+    let laneAtom = atom(getLane());
+    render(<Composer laneAtom={laneAtom} />);
     expect(screen.getByText("ice cream")).toBeVisible();
   });
   test("should load blocks marked show from lane", () => {
@@ -49,13 +50,15 @@ describe("Composer", () => {
       { name: "quantity", input: 5, show: true },
       { name: "dimension", input: 5, show: false },
     ];
-    render(<Composer lane={lane} />);
+    let laneAtom = atom(lane);
+    render(<Composer laneAtom={laneAtom} />);
     expect(screen.getByText("blocks-quantity")).toBeVisible();
   });
 
   test("should update blocks list on blocks component update", () => {
     const lane = getLane();
-    render(<Composer lane={lane} />);
+    const laneAtom = atom(lane);
+    render(<Composer laneAtom={laneAtom} />);
     userEvent.click(screen.getByTestId("blocks"));
     expect(screen.getByTestId("blocks")).toHaveTextContent("blocks-quantity");
   });
@@ -63,14 +66,16 @@ describe("Composer", () => {
   test("should exclude default items from addable list", () => {
     const lane = getLane();
     lane.blocks = [{ name: "dynamic", input: 5, isDefault: true }];
-    render(<Composer lane={lane} />);
+    const laneAtom = atom(lane);
+    render(<Composer laneAtom={laneAtom} />);
     expect(screen.getByTestId("add")).toHaveTextContent("add-");
   });
 
   test("should update blocks list on add component update", () => {
     const lane = getLane();
     lane.blocks = [{ name: "dynamic", input: 5, show: false }];
-    render(<Composer lane={lane} />);
+    const laneAtom = atom(lane);
+    render(<Composer laneAtom={laneAtom} />);
     const addBlock = screen.getByTestId("add");
     userEvent.click(addBlock);
     expect(screen.getByTestId("blocks")).toHaveTextContent("blocks-dynamic");
@@ -80,7 +85,8 @@ describe("Composer", () => {
   test("should remove removed block", () => {
     const lane = getLane();
     lane.blocks = [{ name: "toRemove", input: 5, show: true }];
-    render(<Composer lane={lane} />);
+    const laneAtom = atom(lane);
+    render(<Composer laneAtom={laneAtom} />);
     userEvent.click(screen.getByTestId("remove"));
     expect(screen.getByText("blocks-")).toBeVisible();
   });
@@ -102,7 +108,8 @@ describe("Composer", () => {
       initialOutput: { cost: 0 },
       output: ["cost"],
     };
-    render(<Composer lane={lane} />);
+    const laneAtom = atom(lane);
+    render(<Composer laneAtom={laneAtom} />);
     expect(screen.getByText("25")).toBeVisible();
   });
 });
