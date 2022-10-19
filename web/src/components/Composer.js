@@ -10,18 +10,18 @@ function getInputs(blocks) {
   return inputMap;
 }
 
-export function Composer({ domain }) {
-  let [blocks, setBlocks] = useState(domain.blocks);
-  let [output, setOutput] = useState({ ...domain.initialOutput });
+const Composer = ({ lane }) => {
+  let [blocks, setBlocks] = useState(lane.blocks);
+  let [output, setOutput] = useState({ ...lane.initialOutput });
   useEffect(() => {
-    const localOutput = { ...domain.initialOutput };
+    const localOutput = { ...lane.initialOutput };
     const input = getInputs(blocks);
     blocks
       .filter((b) => b.show)
       .filter((b) => b.compute != null)
       .forEach((b) => b.compute(input, localOutput));
     setOutput(localOutput);
-  }, [blocks, domain.initialOutput]);
+  }, [blocks, lane.initialOutput]);
   const addNewBlock = (newBlock) => {
     const newBlocks = [...blocks];
     newBlocks.find((b) => b.name === newBlock.name).show = true;
@@ -35,7 +35,7 @@ export function Composer({ domain }) {
   return (
     <>
       <Card>
-        <Card.Header>{domain.name}</Card.Header>
+        <Card.Header>{lane.name}</Card.Header>
         <Card.Body>
           <Blocks
             blocks={blocks.filter((block) => block.show)}
@@ -46,9 +46,11 @@ export function Composer({ domain }) {
             blocks={blocks.filter((block) => !(block.show || block.default))}
             addNewBlock={addNewBlock}
           />
-          <Output values={output} fields={domain.output} />
+          <Output values={output} fields={lane.output} />
         </Card.Body>
       </Card>
     </>
   );
-}
+};
+
+export default Composer;

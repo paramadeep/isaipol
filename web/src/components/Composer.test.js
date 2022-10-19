@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { Composer } from "./Composer";
+import Composer from "./Composer";
 import userEvent from "@testing-library/user-event";
 
 jest.mock("./Blocks", () => {
@@ -31,7 +31,7 @@ jest.mock("./Output", () => {
   };
 });
 
-const getDomain = () => ({
+const getLane = () => ({
   name: "ice cream",
   blocks: [],
   output: [],
@@ -39,38 +39,38 @@ const getDomain = () => ({
 
 describe("Composer", () => {
   test("should show title", () => {
-    let domain = getDomain();
-    render(<Composer domain={domain} />);
+    let lane = getLane();
+    render(<Composer lane={lane} />);
     expect(screen.getByText("ice cream")).toBeVisible();
   });
-  test("should load blocks marked show from domain", () => {
-    const domain = getDomain();
-    domain.blocks = [
+  test("should load blocks marked show from lane", () => {
+    const lane = getLane();
+    lane.blocks = [
       { name: "quantity", input: 5, show: true },
       { name: "dimension", input: 5, show: false },
     ];
-    render(<Composer domain={domain} />);
+    render(<Composer lane={lane} />);
     expect(screen.getByText("blocks-quantity")).toBeVisible();
   });
 
   test("should update blocks list on blocks component update", () => {
-    const domain = getDomain();
-    render(<Composer domain={domain} />);
+    const lane = getLane();
+    render(<Composer lane={lane} />);
     userEvent.click(screen.getByTestId("blocks"));
     expect(screen.getByTestId("blocks")).toHaveTextContent("blocks-quantity");
   });
 
   test("should exclude default items from addable list", () => {
-    const domain = getDomain();
-    domain.blocks = [{ name: "dynamic", input: 5, isDefault: true }];
-    render(<Composer domain={domain} />);
+    const lane = getLane();
+    lane.blocks = [{ name: "dynamic", input: 5, isDefault: true }];
+    render(<Composer lane={lane} />);
     expect(screen.getByTestId("add")).toHaveTextContent("add-");
   });
 
   test("should update blocks list on add component update", () => {
-    const domain = getDomain();
-    domain.blocks = [{ name: "dynamic", input: 5, show: false }];
-    render(<Composer domain={domain} />);
+    const lane = getLane();
+    lane.blocks = [{ name: "dynamic", input: 5, show: false }];
+    render(<Composer lane={lane} />);
     const addBlock = screen.getByTestId("add");
     userEvent.click(addBlock);
     expect(screen.getByTestId("blocks")).toHaveTextContent("blocks-dynamic");
@@ -78,15 +78,15 @@ describe("Composer", () => {
 
   test.todo("should not remove default blocks");
   test("should remove removed block", () => {
-    const domain = getDomain();
-    domain.blocks = [{ name: "toRemove", input: 5, show: true }];
-    render(<Composer domain={domain} />);
+    const lane = getLane();
+    lane.blocks = [{ name: "toRemove", input: 5, show: true }];
+    render(<Composer lane={lane} />);
     userEvent.click(screen.getByTestId("remove"));
     expect(screen.getByText("blocks-")).toBeVisible();
   });
 
-  test("should load output of domain", () => {
-    let domain = {
+  test("should load output of lane", () => {
+    let lane = {
       name: "hi",
       blocks: [
         {
@@ -102,7 +102,7 @@ describe("Composer", () => {
       initialOutput: { cost: 0 },
       output: ["cost"],
     };
-    render(<Composer domain={domain} />);
+    render(<Composer lane={lane} />);
     expect(screen.getByText("25")).toBeVisible();
   });
 });

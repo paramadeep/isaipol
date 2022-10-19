@@ -38,4 +38,27 @@ describe("enrichDomain", () => {
     expect(domain.blocks.find((b) => b.name === "a").isDefault).toBeTruthy();
     expect(domain.blocks.find((b) => b.name === "b").isDefault).toBeFalsy();
   });
+  test("should add lane if not exist", () => {
+    const domain = {
+      defaults: [],
+      output: ["o"],
+      blocks: [{ name: "a", input: 10 }],
+    };
+    enrichDomain(domain);
+    expect(domain.lanes.length).toBe(1);
+    expect(domain.lanes[0].id).toBe(1);
+    expect(domain.lanes[0].blocks).toBe(domain.blocks);
+    expect(domain.lanes[0].output).toBe(domain.output);
+  });
+  test("should not add lane if it exist", () => {
+    const domain = {
+      defaults: [],
+      output: [],
+      blocks: [{ name: "a", input: 10 }],
+      lanes: [{ id: 2 }],
+    };
+    enrichDomain(domain);
+    expect(domain.lanes.length).toBe(1);
+    expect(domain.lanes[0].id).toBe(2);
+  });
 });

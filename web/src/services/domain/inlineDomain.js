@@ -2,7 +2,7 @@ import enrichDomain from "./enrichDomain";
 
 const domain = {
   name: "ice cream bill",
-  defaults: ["quantity", "scoops", "flavour", "container"],
+  defaults: ["quantity", "scoops", "flavour"],
   blocks: [
     { name: "quantity", input: 1 },
     { name: "scoops", input: 1 },
@@ -36,14 +36,3 @@ const domain = {
 };
 enrichDomain(domain);
 export default domain;
-
-// domain.blocks.forEach(b=> )
-// let domain = {
-//   name: "subway",
-//   defaults: ["length", "bread", "Toppings"],
-//   blocks: [
-//     { name: "length", input: 1 },
-//     { name: "bread", input: ["plain", "garlic"] },
-//     { name: "Toppings", input: ["onion", "tomato"] },
-//   ],
-// };

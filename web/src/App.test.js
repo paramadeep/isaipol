@@ -1,17 +1,23 @@
 import { render, screen } from "@testing-library/react";
 import App from "./App";
-
-jest.mock("./services/domain/inlineDomain", () => {
-  return {
-    name: "ice cream",
-  };
-});
-
-jest.mock("./components/Composer", () => {
-  return { Composer: ({ domain }) => <div>{`Composer-${domain.name}`}</div> };
-});
+import { Provider } from "jotai";
+import domainAtom from "./states/domainAtom";
 
 test("renders learn react link", () => {
-  render(<App />);
-  expect(screen.getByText("Composer-ice cream")).toBeVisible();
+  const domain = {
+    name: "ice cream",
+    lanes: [{ name: 1 }, { name: 2 }],
+  };
+  render(
+    <Provider initialValues={[[domainAtom, domain]]}>
+      <App />
+    </Provider>
+  );
+  expect(screen.getByText("Composer-1")).toBeVisible();
+  expect(screen.getByText("Composer-2")).toBeVisible();
+  expect(screen.getAllByTestId("composer").length).toBe(2);
 });
+
+jest.mock("./components/Composer", () => ({ lane }) => (
+  <div data-testid={"composer"}>{`Composer-${lane.name}`}</div>
+));

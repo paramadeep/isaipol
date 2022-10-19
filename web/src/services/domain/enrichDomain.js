@@ -45,9 +45,22 @@ const updateInitialOutput = (domain) => {
   }, {});
 };
 
+const addBaseLane = (domain) => {
+  if (domain.lanes == null || domain.lanes.length === 0) {
+    domain.lanes = [];
+    domain.lanes.push({
+      id: 1,
+      name: domain.name,
+      blocks: domain.blocks,
+      output: domain.output,
+    });
+  }
+};
+
 const enrichDomain = (domain) => {
   enrichDomainBlocks(domain);
   updateDefaultBlocks(domain);
   updateInitialOutput(domain);
+  addBaseLane(domain);
 };
 export default enrichDomain;
