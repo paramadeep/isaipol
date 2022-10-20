@@ -2,53 +2,39 @@ import { render, screen } from "@testing-library/react";
 import AddBlock from "./AddBlock";
 import userEvent from "@testing-library/user-event";
 
-jest.mock(
-  "./BlockPicker",
-  () =>
-    ({ blocks, show, onBlockSelection, onHide }) =>
-      (
-        <>
-          <button
-            data-testid={"picker"}
-            onClick={() => onBlockSelection("newBlock")}
-          >
-            {`picker-${blocks.map((b) => b.name).join("-")}-${show}`}
-          </button>
-          <button data-testid={"picker-close"} onClick={onHide}></button>
-        </>
-      )
-);
+const mockBlockPicker = jest.fn();
+jest.mock("./BlockPicker", () => (a) => mockBlockPicker(a));
 describe("Add Block", () => {
-  test("should pass model with list of blocks", () => {
-    let blocks = [{ name: "a" }, { name: "b" }];
-    render(<AddBlock blocks={blocks} addNewBlock={() => {}} />);
-    expect(screen.getByTestId("picker")).toHaveTextContent("picker-a-b-false");
+  test("should render bock picker", () => {
+    mockBlockPicker.mockReturnValue(<div>picker</div>);
+    render(<AddBlock blockAtomsAtom={"1"} />);
+    expect(screen.getByText("picker")).toBeVisible();
+    expect(mockBlockPicker).toBeCalledWith(
+      expect.objectContaining({
+        show: false,
+        blockAtomsAtom: "1",
+      })
+    );
   });
-  test("on click on add button should display model with list of passed blocks", () => {
-    let blocks = [{ name: "a" }, { name: "b" }];
-    render(<AddBlock blocks={blocks} addNewBlock={() => {}} />);
+  test("on click on add button should display block picker", () => {
+    render(<AddBlock blockAtomsAtom={"1"} />);
     userEvent.click(screen.getByText("Add"));
-    expect(screen.getByTestId("picker")).toHaveTextContent("picker-a-b-true");
+    expect(mockBlockPicker).toBeCalledWith(
+      expect.objectContaining({
+        show: true,
+        blockAtomsAtom: "1",
+      })
+    );
   });
-  test("on block selection, hide picker and call add block", () => {
-    let blocks = [{ name: "a" }, { name: "b" }];
-    const mockAddBlock = jest.fn();
-    render(<AddBlock blocks={blocks} addNewBlock={mockAddBlock} />);
+
+  test("should hide picker on hide picker", () => {
+    mockBlockPicker.mockImplementation(({ show, blockAtomsAtom, onHide }) => {
+      return <div onClick={onHide}> {`picker-${show}-${blockAtomsAtom}`} </div>;
+    });
+    render(<AddBlock blockAtomsAtom={"1"} />);
     userEvent.click(screen.getByText("Add"));
-    const picker = screen.getByTestId("picker");
-    expect(picker).toHaveTextContent("picker-a-b-true");
-    userEvent.click(picker);
-    expect(picker).toHaveTextContent("picker-a-b-false");
-    expect(mockAddBlock).toBeCalledWith("newBlock");
-  });
-  test("on hide picker, hide picker and don't add block", () => {
-    let blocks = [{ name: "a" }, { name: "b" }];
-    const mockAddBlock = jest.fn();
-    render(<AddBlock blocks={blocks} addNewBlock={mockAddBlock} />);
-    userEvent.click(screen.getByText("Add"));
-    userEvent.click(screen.getByTestId("picker-close"));
-    expect(screen.getByTestId("picker")).toHaveTextContent("picker-a-b-false");
-    expect(mockAddBlock).not.toBeCalled();
+    userEvent.click(screen.getByText("picker-true-1"));
+    expect(screen.getByText("picker-false-1")).toBeVisible();
   });
   test.todo("should disable add, when there is no block to add");
 });

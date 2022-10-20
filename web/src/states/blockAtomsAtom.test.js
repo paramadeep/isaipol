@@ -1,5 +1,5 @@
 import { atom, useAtomValue, useAtom } from "jotai";
-import { blockAtomsAtom as getBlockAtomsAtom } from "./blockAtomsAtom";
+import getBlockAtomsAtom from "./blockAtomsAtom";
 import { act, renderHook } from "@testing-library/react";
 import { useUpdateAtom } from "jotai/utils";
 

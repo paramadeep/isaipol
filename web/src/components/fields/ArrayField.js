@@ -8,13 +8,16 @@ function Options({ options }) {
   ));
 }
 
-const ArrayField = ({ input, update, value }) => (
-  <Form.Select
-    data-testid={"arrayField"}
-    onChange={(e) => update(e.target.value)}
-    value={value}
-  >
-    <Options options={input} />
-  </Form.Select>
-);
+const ArrayField = ({ input, update, value }) => {
+  console.log({ input, update, value });
+  return (
+    <Form.Select
+      data-testid={"arrayField"}
+      onChange={(e) => update(e.target.value)}
+      value={value}
+    >
+      <Options options={input} />
+    </Form.Select>
+  );
+};
 export default ArrayField;

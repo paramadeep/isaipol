@@ -1,26 +1,27 @@
 import BlockInput from "./BlockInput";
 import { Card } from "react-bootstrap";
-import { useAtom } from "jotai";
-import { RemoveBlock } from "./RemoveBlock";
+import { useAtomValue } from "jotai";
+import RemoveBlock from "./RemoveBlock";
+import { useMemo } from "react";
+import blockInputAtom from "../states/blockInputAtom";
+import getRemoveBlockAtom from "../states/removeBlockAtom";
 
 const Block = ({ blockAtom }) => {
-  const [block, setBlock] = useAtom(blockAtom);
-  const removeBlock = () => setBlock({ ...block, show: false });
-  const updateBlockValue = (value) => setBlock({ ...block, value });
+  const block = useAtomValue(blockAtom);
+  const removeBlockAtom = useMemo(
+    () => getRemoveBlockAtom(blockAtom),
+    [blockAtom]
+  );
+  const updateBlockAtom = useMemo(() => blockInputAtom(blockAtom), [blockAtom]);
   if (!block.show) {
     return <></>;
   }
   return (
-    <Card data-testid={`${block.name}Block`}>
+    <Card>
       <Card.Body>
-        <RemoveBlock isDefault={block.isDefault} removeBlock={removeBlock} />
+        <RemoveBlock removeAtom={removeBlockAtom} />
         <Card.Subtitle>{block.name}</Card.Subtitle>
-        <BlockInput
-          input={block.input}
-          update={updateBlockValue}
-          value={block.value}
-          type={block.type}
-        />
+        <BlockInput updateBlockAtom={updateBlockAtom} />
       </Card.Body>
     </Card>
   );

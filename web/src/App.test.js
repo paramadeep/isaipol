@@ -18,6 +18,6 @@ test("renders learn react link", () => {
   expect(screen.getAllByTestId("composer").length).toBe(2);
 });
 
-jest.mock("./components/Composer", () => ({ laneAtom }) => {
+jest.mock("./components/Lane", () => ({ laneAtom }) => {
   return <div data-testid={"composer"}>{`Composer-${laneAtom}`}</div>;
 });

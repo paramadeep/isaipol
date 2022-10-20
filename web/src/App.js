@@ -1,6 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Composer from "./components/Composer";
+import Lane from "./components/Lane";
 import { Col, Container, Row } from "react-bootstrap";
 import { useAtom } from "jotai";
 import { laneAtomsAtom } from "./states/domainAtom";
@@ -13,7 +13,7 @@ const App = () => {
       <Row className={"justify-content-center"}>
         {lanesAtom.map((laneAtom, index) => (
           <Col key={index} className={"col-lg-4"}>
-            <Composer laneAtom={laneAtom} />
+            <Lane laneAtom={laneAtom} />
           </Col>
         ))}
       </Row>

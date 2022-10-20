@@ -1,6 +1,6 @@
 import { atom, useAtomValue } from "jotai";
 import { renderHook } from "@testing-library/react";
-import { outputAtom } from "./outputAtom";
+import outputAtom from "./outputAtom";
 import { useMemo } from "react";
 
 const baseBlock = {

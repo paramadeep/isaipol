@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 
-export function outputAtom(laneAtom) {
-  return atom((get) => {
+const outputAtom = (laneAtom) =>
+  atom((get) => {
     const lane = get(laneAtom);
     const inputs = lane.blocks.reduce((aggregator, block) => {
       aggregator[block.name] = block.value;
@@ -18,4 +18,5 @@ export function outputAtom(laneAtom) {
         { ...lane.initialOutput }
       );
   });
-}
+
+export default outputAtom;

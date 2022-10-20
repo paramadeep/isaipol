@@ -1,10 +1,9 @@
 import { Modal } from "react-bootstrap";
 import { useAtom } from "jotai";
-import { BlockPickerItem } from "./BlockPickerItem";
+import BlockPickerItem from "./BlockPickerItem";
 
 const BlockPicker = ({ show, blockAtomsAtom, onHide }) => {
   const [blockAtoms] = useAtom(blockAtomsAtom);
-
   return (
     <Modal
       show={show}

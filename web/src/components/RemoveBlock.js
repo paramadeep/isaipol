@@ -1,6 +1,6 @@
 import { CloseButton } from "react-bootstrap";
 
-export function RemoveBlock({ isDefault, removeBlock }) {
+const RemoveBlock = ({ isDefault, removeBlock }) => {
   if (isDefault) {
     return <></>;
   }
@@ -12,4 +12,5 @@ export function RemoveBlock({ isDefault, removeBlock }) {
       style={{ width: "2px" }}
     />
   );
-}
+};
+export default RemoveBlock;

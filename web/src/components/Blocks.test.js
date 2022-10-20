@@ -1,59 +1,29 @@
-import { render, screen } from "@testing-library/react";
+import { render, renderHook, screen } from "@testing-library/react";
 import Blocks from "./Blocks";
-import userEvent from "@testing-library/user-event";
-import { Button } from "react-bootstrap";
+import { atom, useAtomValue } from "jotai";
+import { splitAtom } from "jotai/utils";
 
-jest.mock("./Block", () => {
-  return ({ block, update, remove }) => (
-    <>
-      <div
-        data-testid={`block-${block.name}`}
-        onClick={() => update(100)}
-      >{`block-${block.name}-${block.value}`}</div>
-      <button
-        data-testid={`remove-block-${block.name}`}
-        onClick={remove}
-      ></button>
-    </>
+const mockBlock = jest.fn();
+
+jest.mock("./Block", () => (a) => mockBlock(a));
+
+function validateBlockAtom(callIndex, blockValue) {
+  const firstCallParams = mockBlock.mock.calls[callIndex];
+  expect(firstCallParams.length).toBe(1);
+  const actual = firstCallParams[0].blockAtom;
+  expect(actual).not.toBeNull();
+  expect(renderHook(() => useAtomValue(actual)).result.current).toBe(
+    blockValue
   );
-});
+}
 
 describe("Blocks", () => {
-  test("should render all blocks", () => {
-    let blocks = [
-      { name: "quantity", input: 10, value: 30 },
-      { name: "dimension", input: 20, value: 40 },
-    ];
-    render(<Blocks blocks={blocks} />);
-    expect(screen.getByText("block-quantity-30")).toBeVisible();
-    expect(screen.getByText("block-dimension-40")).toBeVisible();
-  });
-  test("should update blocks on change", () => {
-    const mockUpdate = jest.fn();
-    let blocks = [
-      { name: "quantity", input: 10, value: 30 },
-      { name: "dimension", input: 20, value: 40 },
-    ];
-    render(<Blocks blocks={blocks} setBlocks={mockUpdate} />);
-    userEvent.click(screen.getByTestId("block-quantity"));
-    expect(mockUpdate).toBeCalledWith([
-      { input: 10, name: "quantity", value: 100 },
-      { input: 20, name: "dimension", value: 40 },
-    ]);
-    userEvent.click(screen.getByTestId("block-dimension"));
-    expect(mockUpdate).toBeCalledWith([
-      { input: 10, name: "quantity", value: 100 },
-      { input: 20, name: "dimension", value: 100 },
-    ]);
-  });
-  test("should remove block on remove", () => {
-    const mockRemove = jest.fn();
-    let blocks = [
-      { name: "quantity", input: 10, value: 30 },
-      { name: "dimension", input: 20, value: 40 },
-    ];
-    render(<Blocks blocks={blocks} removeBlock={mockRemove} />);
-    userEvent.click(screen.getByTestId("remove-block-quantity"));
-    expect(mockRemove).toBeCalledWith(blocks[0]);
+  test("should render all blocks passed", () => {
+    let blockAtomsAtom = splitAtom(atom([1, 2]));
+    mockBlock.mockReturnValue(<div>a</div>);
+    render(<Blocks blockAtomsAtom={blockAtomsAtom} />);
+    expect(screen.queryAllByText("a").length).toBe(2);
+    validateBlockAtom(0, 1);
+    validateBlockAtom(1, 2);
   });
 });

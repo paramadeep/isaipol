@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { useMemo } from "react";
 import { pickerBlockAtom } from "../states/pickerBlockAtom";
 
-export function BlockPickerItem({ blockAtom }) {
+const BlockPickerItem = ({ blockAtom }) => {
   const [block, showBlock] = useAtom(
     useMemo(() => pickerBlockAtom(blockAtom), [blockAtom])
   );
@@ -11,4 +11,5 @@ export function BlockPickerItem({ blockAtom }) {
     return <></>;
   }
   return <Button onClick={showBlock}>{block.name}</Button>;
-}
+};
+export default BlockPickerItem;

@@ -1,5 +1,5 @@
 import { render, renderHook, screen } from "@testing-library/react";
-import { BlockPickerItem } from "./BlockPickerItem";
+import BlockPickerItem from "./BlockPickerItem";
 import { atom } from "jotai";
 import userEvent from "@testing-library/user-event";
 import { useAtomValue } from "jotai";

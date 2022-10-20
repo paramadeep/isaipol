@@ -4,10 +4,10 @@ import Output from "./Output";
 import AddBlock from "./AddBlock";
 import { Card } from "react-bootstrap";
 import { useAtom, useAtomValue } from "jotai";
-import { blockAtomsAtom as getBlockAtomsAtom } from "../states/blockAtomsAtom";
-import { outputAtom } from "../states/outputAtom";
+import getBlockAtomsAtom from "../states/blockAtomsAtom";
+import outputAtom from "../states/outputAtom";
 
-const Composer = ({ laneAtom }) => {
+const Lane = ({ laneAtom }) => {
   const [lane] = useAtom(laneAtom);
   const blockAtomsAtom = useMemo(() => getBlockAtomsAtom(laneAtom), [laneAtom]);
   const output = useAtomValue(useMemo(() => outputAtom(laneAtom), [laneAtom]));
@@ -26,4 +26,4 @@ const Composer = ({ laneAtom }) => {
   );
 };
 
-export default Composer;
+export default Lane;
