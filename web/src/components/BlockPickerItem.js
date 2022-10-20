@@ -1,7 +1,7 @@
 import { useAtom } from "jotai";
 import { Button } from "react-bootstrap";
 import { useMemo } from "react";
-import { pickerBlockAtom } from "../states/PickerBlockAtom";
+import { pickerBlockAtom } from "../states/pickerBlockAtom";
 
 export function BlockPickerItem({ blockAtom }) {
   const [block, showBlock] = useAtom(

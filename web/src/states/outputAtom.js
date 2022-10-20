@@ -1,6 +1,6 @@
 import { atom } from "jotai";
 
-export function OutputAtom(laneAtom) {
+export function outputAtom(laneAtom) {
   return atom((get) => {
     const lane = get(laneAtom);
     const inputs = lane.blocks.reduce((aggregator, block) => {
@@ -9,7 +9,7 @@ export function OutputAtom(laneAtom) {
     }, {});
     return lane.blocks
       .filter((b) => b.show)
-      .filter((b) => b.compute)
+      .filter((b) => b.compute && typeof b.compute === "function")
       .reduce(
         (output, block) => {
           block.compute(inputs, output);

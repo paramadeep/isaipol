@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 import { splitAtom } from "jotai/utils";
 
-export const BlockAtomsAtom = (laneAtom) => {
+export const blockAtomsAtom = (laneAtom) => {
   const blocksAtoms = atom(
     (get) => get(laneAtom).blocks,
     (get, set, newBlocks) => {
