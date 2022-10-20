@@ -53,6 +53,7 @@ const addBaseLane = (domain) => {
       name: domain.name,
       blocks: domain.blocks,
       output: domain.output,
+      initialOutput: domain.initialOutput,
     });
   }
 };

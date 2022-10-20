@@ -1,22 +1,12 @@
 import Block from "./Block";
+import { useAtom } from "jotai";
 
-const Blocks = ({ blocks, setBlocks, removeBlock }) => {
-  const updateBlock = (blockName, value) => {
-    const newBlocks = [...blocks];
-    newBlocks.find((b) => b.name === blockName).value = value;
-    setBlocks(newBlocks);
-  };
+const Blocks = ({ blockAtomsAtom }) => {
+  const [blockAtoms] = useAtom(blockAtomsAtom);
   return (
     <>
-      {blocks.map((block, index) => (
-        <Block
-          block={block}
-          key={index}
-          update={(value) => {
-            updateBlock(block.name, value);
-          }}
-          remove={() => removeBlock(block)}
-        />
+      {blockAtoms.map((blockAtom, index) => (
+        <Block blockAtom={blockAtom} key={index} />
       ))}{" "}
     </>
   );

@@ -1,29 +1,23 @@
 import BlockInput from "./BlockInput";
-import { Card, CloseButton } from "react-bootstrap";
+import { Card } from "react-bootstrap";
+import { useAtom } from "jotai";
+import { RemoveBlock } from "./RemoveBlock";
 
-const Block = ({ block, update, remove }) => {
-  const getCloseButton = () => {
-    if (block.isDefault) {
-      return;
-    }
-    return (
-      <CloseButton
-        data-testid={`remove-block-${block.name}`}
-        onClick={remove}
-        className={"float-end align-top"}
-        style={{ width: "2px" }}
-      />
-    );
-  };
-
+const Block = ({ blockAtom }) => {
+  const [block, setBlock] = useAtom(blockAtom);
+  const removeBlock = () => setBlock({ ...block, show: false });
+  const updateBlockValue = (value) => setBlock({ ...block, value });
+  if (!block.show) {
+    return <></>;
+  }
   return (
     <Card data-testid={`${block.name}Block`}>
       <Card.Body>
-        {getCloseButton(block, remove)}
+        <RemoveBlock isDefault={block.isDefault} removeBlock={removeBlock} />
         <Card.Subtitle>{block.name}</Card.Subtitle>
         <BlockInput
           input={block.input}
-          update={update}
+          update={updateBlockValue}
           value={block.value}
           type={block.type}
         />

@@ -1,6 +1,6 @@
 import { Button, Modal } from "react-bootstrap";
 
-const BlockPicker = ({ show, onBlockSelection, blocks, onHide }) => {
+const BlockPicker = ({ show, blockAtomsAtom, onHide }) => {
   return (
     <Modal
       show={show}
@@ -15,11 +15,14 @@ const BlockPicker = ({ show, onBlockSelection, blocks, onHide }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {blocks.map((block, index) => (
-          <Button key={index} onClick={() => onBlockSelection(block)}>
-            {block.name}
-          </Button>
-        ))}
+        {/*{blockAtomsAtom.map((blockAtom, index) => {*/}
+        {/*  const [block,updateBlock] = useAtom(blockAtom);*/}
+        {/*  return (*/}
+        {/*    < Button;*/}
+        {/*} key={index} onClick={() => onBlockSelection(block)}>*/}
+        {/*    {block.name}*/}
+        {/*  </Button>*/}
+        {/*))}*/}
       </Modal.Body>
     </Modal>
   );

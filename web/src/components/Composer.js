@@ -1,65 +1,55 @@
 import Blocks from "./Blocks";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import Output from "./Output";
 import AddBlock from "./AddBlock";
 import { Card } from "react-bootstrap";
 import { atom, useAtom } from "jotai";
-
-function getInputs(blocks) {
-  const inputMap = {};
-  blocks.map((b) => (inputMap[b.name] = b.value));
-  return inputMap;
-}
+import { splitAtom } from "jotai/utils";
 
 const Composer = ({ laneAtom }) => {
   const [lane] = useAtom(laneAtom);
-  const blocksAtom = useMemo(
-    () =>
-      atom(
-        (get) => get(laneAtom).blocks,
-        (get, set, newBlocks) => {
+  const blockAtomsAtom = useMemo(() => {
+    const blocksAtoms = atom(
+      (get) => get(laneAtom).blocks,
+      (get, set, newBlocks) => {
+        const lane = get(laneAtom);
+        const newLane = { ...lane, blocks: newBlocks };
+        set(laneAtom, newLane);
+      }
+    );
+    return splitAtom(blocksAtoms);
+  }, [laneAtom]);
+  const [output] = useAtom(
+    useMemo(
+      () =>
+        atom((get) => {
           const lane = get(laneAtom);
-          const newLane = { ...lane, blocks: newBlocks };
-          set(laneAtom, newLane);
-        }
-      ),
-    [laneAtom]
+          const inputs = lane.blocks.reduce((aggregator, block) => {
+            aggregator[block.name] = block.value;
+            return aggregator;
+          }, {});
+          return lane.blocks
+            .filter((b) => b.show)
+            .filter((b) => b.compute)
+            .reduce(
+              (output, block) => {
+                block.compute(inputs, output);
+                return output;
+              },
+              { ...lane.initialOutput }
+            );
+        }),
+      [laneAtom]
+    )
   );
-  const [blocks, setBlocks] = useAtom(blocksAtom);
-  const [output, setOutput] = useState({ ...lane.initialOutput });
-  useEffect(() => {
-    const localOutput = { ...lane.initialOutput };
-    const input = getInputs(blocks);
-    blocks
-      .filter((b) => b.show)
-      .filter((b) => b.compute != null)
-      .forEach((b) => b.compute(input, localOutput));
-    setOutput(localOutput);
-  }, [blocks, lane.initialOutput]);
-  const addNewBlock = (newBlock) => {
-    const newBlocks = [...blocks];
-    newBlocks.find((b) => b.name === newBlock.name).show = true;
-    setBlocks(newBlocks);
-  };
-  const removeBlock = (blockToRemove) => {
-    const newBlocks = [...blocks];
-    newBlocks.find((b) => b.name === blockToRemove.name).show = false;
-    setBlocks(newBlocks);
-  };
+
   return (
     <>
       <Card>
         <Card.Header>{lane.name}</Card.Header>
         <Card.Body>
-          <Blocks
-            blocks={blocks.filter((block) => block.show)}
-            setBlocks={setBlocks}
-            removeBlock={removeBlock}
-          />
-          <AddBlock
-            blocks={blocks.filter((block) => !(block.show || block.default))}
-            addNewBlock={addNewBlock}
-          />
+          <Blocks blockAtomsAtom={blockAtomsAtom} />
+          <AddBlock blockAtomsAtom={blockAtomsAtom} />
           <Output values={output} fields={lane.output} />
         </Card.Body>
       </Card>

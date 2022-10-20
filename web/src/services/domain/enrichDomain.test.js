@@ -49,6 +49,7 @@ describe("enrichDomain", () => {
     expect(domain.lanes[0].id).toBe(1);
     expect(domain.lanes[0].blocks).toBe(domain.blocks);
     expect(domain.lanes[0].output).toBe(domain.output);
+    expect(domain.lanes[0].initialOutput.o).toBe(0);
   });
   test("should not add lane if it exist", () => {
     const domain = {
@@ -60,5 +61,15 @@ describe("enrichDomain", () => {
     enrichDomain(domain);
     expect(domain.lanes.length).toBe(1);
     expect(domain.lanes[0].id).toBe(2);
+  });
+  test("should retain compute", () => {
+    const domain = {
+      defaults: [],
+      output: [],
+      blocks: [{ name: "a", input: 10, compute: () => 10 }],
+      lanes: [],
+    };
+    enrichDomain(domain);
+    expect(domain.blocks[0].compute).not.toBeNull();
   });
 });

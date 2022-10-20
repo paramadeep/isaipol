@@ -2,7 +2,7 @@ import { atom } from "jotai";
 import inlineDomain from "../services/domain/inlineDomain";
 import { splitAtom } from "jotai/utils";
 
-export const domainAtom = atom(inlineDomain);
+export const domainAtom = atom({ ...inlineDomain });
 const lanesAtom = atom(
   (get) => get(domainAtom).lanes,
   (get, set, newLanes) => {
