@@ -2,12 +2,11 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Composer from "./components/Composer";
 import { Col, Container, Row } from "react-bootstrap";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { laneAtomsAtom } from "./states/domainAtom";
 
 const App = () => {
   const [lanesAtom] = useAtom(laneAtomsAtom);
-  const blocks = useAtomValue(lanesAtom[0]);
 
   return (
     <Container>

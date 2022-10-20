@@ -1,6 +1,10 @@
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import { useAtom } from "jotai";
+import { BlockPickerItem } from "./BlockPickerItem";
 
 const BlockPicker = ({ show, blockAtomsAtom, onHide }) => {
+  const [blockAtoms] = useAtom(blockAtomsAtom);
+
   return (
     <Modal
       show={show}
@@ -15,14 +19,9 @@ const BlockPicker = ({ show, blockAtomsAtom, onHide }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {/*{blockAtomsAtom.map((blockAtom, index) => {*/}
-        {/*  const [block,updateBlock] = useAtom(blockAtom);*/}
-        {/*  return (*/}
-        {/*    < Button;*/}
-        {/*} key={index} onClick={() => onBlockSelection(block)}>*/}
-        {/*    {block.name}*/}
-        {/*  </Button>*/}
-        {/*))}*/}
+        {blockAtoms.map((blockAtom, index) => (
+          <BlockPickerItem blockAtom={blockAtom} key={index} />
+        ))}
       </Modal.Body>
     </Modal>
   );

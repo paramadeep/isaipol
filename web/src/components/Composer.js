@@ -3,45 +3,14 @@ import { useMemo } from "react";
 import Output from "./Output";
 import AddBlock from "./AddBlock";
 import { Card } from "react-bootstrap";
-import { atom, useAtom } from "jotai";
-import { splitAtom } from "jotai/utils";
+import { useAtom, useAtomValue } from "jotai";
+import { BlockAtomsAtom } from "../states/blockAtomsAtom";
+import { OutputAtom } from "../states/OutputAtom";
 
 const Composer = ({ laneAtom }) => {
   const [lane] = useAtom(laneAtom);
-  const blockAtomsAtom = useMemo(() => {
-    const blocksAtoms = atom(
-      (get) => get(laneAtom).blocks,
-      (get, set, newBlocks) => {
-        const lane = get(laneAtom);
-        const newLane = { ...lane, blocks: newBlocks };
-        set(laneAtom, newLane);
-      }
-    );
-    return splitAtom(blocksAtoms);
-  }, [laneAtom]);
-  const [output] = useAtom(
-    useMemo(
-      () =>
-        atom((get) => {
-          const lane = get(laneAtom);
-          const inputs = lane.blocks.reduce((aggregator, block) => {
-            aggregator[block.name] = block.value;
-            return aggregator;
-          }, {});
-          return lane.blocks
-            .filter((b) => b.show)
-            .filter((b) => b.compute)
-            .reduce(
-              (output, block) => {
-                block.compute(inputs, output);
-                return output;
-              },
-              { ...lane.initialOutput }
-            );
-        }),
-      [laneAtom]
-    )
-  );
+  const blockAtomsAtom = useMemo(() => BlockAtomsAtom(laneAtom), [laneAtom]);
+  const output = useAtomValue(useMemo(() => OutputAtom(laneAtom), [laneAtom]));
 
   return (
     <>

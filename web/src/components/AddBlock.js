@@ -7,7 +7,6 @@ const AddBlock = ({ blockAtomsAtom }) => {
   const hidePicker = () => {
     setShowBlockPicker(false);
   };
-
   return (
     <>
       <Button onClick={() => setShowBlockPicker(true)}>Add</Button>
