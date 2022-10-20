@@ -27,8 +27,8 @@ const domain = {
       name: "sauce",
       input: ["chocolate", "blackcurrant"],
       compute: (i, o) => {
-        const costMap = { cup: 5, cone: 2 };
-        o.cost = o.cost + costMap[i.container];
+        const costMap = { chocolate: 5, blackcurrant: 2 };
+        o.cost = o.cost + costMap[i.sauce];
       },
     },
   ],
