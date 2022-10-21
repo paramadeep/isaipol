@@ -1,7 +1,9 @@
 import { CloseButton } from "react-bootstrap";
+import { useAtom } from "jotai";
 
-const RemoveBlock = ({ isDefault, removeBlock }) => {
-  if (isDefault) {
+const RemoveBlock = ({ removeAtom }) => {
+  const [{ isRemovable }, removeBlock] = useAtom(removeAtom);
+  if (!isRemovable) {
     return <></>;
   }
   return (

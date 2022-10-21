@@ -12,13 +12,13 @@ describe("Block Input", () => {
   test("should render number field for numeric input", () => {
     mockNumberField.mockReturnValue(<></>);
     const blockInputAtom = atom({ type: "number", input: 19, value: 12 });
-    render(<BlockInput blockInputAtom={blockInputAtom} />);
+    render(<BlockInput updateBlockAtom={blockInputAtom} />);
     expect(mockNumberField).toBeCalledWith({ blockInputAtom });
   });
   test("should render dropdown field for array input", () => {
     mockArrayField.mockReturnValue(<></>);
     const blockInputAtom = atom({ type: "array", input: 19, value: 12 });
-    render(<BlockInput blockInputAtom={blockInputAtom} />);
+    render(<BlockInput updateBlockAtom={blockInputAtom} />);
     expect(mockArrayField).toBeCalledWith({ blockInputAtom });
   });
 });

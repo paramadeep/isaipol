@@ -1,5 +1,4 @@
 import { atom, useAtomValue } from "jotai";
-import getBlockInputAtom from "./blockInputAtom";
 import { act, renderHook } from "@testing-library/react";
 import { useUpdateAtom } from "jotai/utils";
 import RemoveBlockAtom from "./removeBlockAtom";
@@ -10,7 +9,7 @@ describe("block input atom", () => {
     const removeBlockAtom = RemoveBlockAtom(blockAtom);
     const actual = renderHook(() => useAtomValue(removeBlockAtom)).result
       .current;
-    expect(actual).toEqual({ isRemovable: true });
+    expect(actual).toEqual({ isRemovable: false });
   });
   test("should change show fields to false of base block atom", () => {
     const blockAtom = atom({ show: true, value: 3 });

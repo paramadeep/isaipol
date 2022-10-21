@@ -1,4 +1,5 @@
 import { Form } from "react-bootstrap";
+import { useAtom } from "jotai";
 
 function Options({ options }) {
   return options.map((option, index) => (
@@ -8,15 +9,15 @@ function Options({ options }) {
   ));
 }
 
-const ArrayField = ({ input, update, value }) => {
-  console.log({ input, update, value });
+const ArrayField = ({ blockInputAtom }) => {
+  const [block, update] = useAtom(blockInputAtom);
   return (
     <Form.Select
       data-testid={"arrayField"}
       onChange={(e) => update(e.target.value)}
-      value={value}
+      value={block.value}
     >
-      <Options options={input} />
+      <Options options={block.input} />
     </Form.Select>
   );
 };

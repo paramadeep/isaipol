@@ -1,15 +1,15 @@
 import NumberField from "./fields/NumberField";
 import ArrayField from "./fields/ArrayField";
 import { Form } from "react-bootstrap";
-import { useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 
-const BlockInput = ({ blockInputAtom }) => {
-  const { type } = useAtomValue(blockInputAtom);
+const BlockInput = ({ updateBlockAtom }) => {
+  const [block] = useAtom(updateBlockAtom);
   let InputField;
-  if (type === "number") {
-    InputField = <NumberField blockInputAtom={blockInputAtom} />;
+  if (block.type === "number") {
+    InputField = <NumberField blockInputAtom={updateBlockAtom} />;
   } else {
-    InputField = <ArrayField blockInputAtom={blockInputAtom} />;
+    InputField = <ArrayField blockInputAtom={updateBlockAtom} />;
   }
   return <Form>{InputField}</Form>;
 };
