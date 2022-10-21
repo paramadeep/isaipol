@@ -1,25 +1,24 @@
 import { render, screen } from "@testing-library/react";
 import BlockInput from "./BlockInput";
+import { atom } from "jotai";
 
-jest.mock("./fields/NumberField", () => {
-  return ({ value, update }) => <div>{`Number${value}-${update}`}</div>;
-});
+const mockNumberField = jest.fn();
+const mockArrayField = jest.fn();
 
-jest.mock("./fields/ArrayField", () => {
-  return ({ input, update, value }) => (
-    <div>{`Array${input.join("-")}-${update}-${value}`}</div>
-  );
-});
+jest.mock("./fields/NumberField", () => (a) => mockNumberField(a));
+jest.mock("./fields/ArrayField", () => (a) => mockArrayField(a));
 
 describe("Block Input", () => {
   test("should render number field for numeric input", () => {
-    render(<BlockInput type={"number"} input={19} update={11} value={12} />);
-    expect(screen.getByText("Number12-11")).not.toBeNull();
+    mockNumberField.mockReturnValue(<></>);
+    const blockInputAtom = atom({ type: "number", input: 19, value: 12 });
+    render(<BlockInput blockInputAtom={blockInputAtom} />);
+    expect(mockNumberField).toBeCalledWith({ blockInputAtom });
   });
   test("should render dropdown field for array input", () => {
-    render(
-      <BlockInput type={"array"} input={[10, 11]} update={12} value={13} />
-    );
-    expect(screen.getByText("Array10-11-12-13")).not.toBeNull();
+    mockArrayField.mockReturnValue(<></>);
+    const blockInputAtom = atom({ type: "array", input: 19, value: 12 });
+    render(<BlockInput blockInputAtom={blockInputAtom} />);
+    expect(mockArrayField).toBeCalledWith({ blockInputAtom });
   });
 });
