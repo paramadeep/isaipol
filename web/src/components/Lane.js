@@ -6,16 +6,20 @@ import { Card } from "react-bootstrap";
 import { useAtom, useAtomValue } from "jotai";
 import getBlockAtomsAtom from "../states/blockAtomsAtom";
 import outputAtom from "../states/outputAtom";
+import LaneActions from "./LaneActions";
 
-const Lane = ({ laneAtom }) => {
+const Lane = ({ laneAtom, remove, duplicate }) => {
   const [lane] = useAtom(laneAtom);
+  const duplicateLane = () => duplicate(lane);
   const blockAtomsAtom = useMemo(() => getBlockAtomsAtom(laneAtom), [laneAtom]);
   const output = useAtomValue(useMemo(() => outputAtom(laneAtom), [laneAtom]));
 
   return (
     <>
       <Card>
-        <Card.Header>{lane.name}</Card.Header>
+        <Card.Header>
+          <LaneActions remove={remove} duplicateLane={duplicateLane} />
+        </Card.Header>
         <Card.Body>
           <Blocks blockAtomsAtom={blockAtomsAtom} />
           <AddBlock blockAtomsAtom={blockAtomsAtom} />

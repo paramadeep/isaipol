@@ -6,14 +6,19 @@ import { useAtom } from "jotai";
 import { laneAtomsAtom } from "./states/domainAtom";
 
 const App = () => {
-  const [lanesAtom] = useAtom(laneAtomsAtom);
+  const [laneAtoms, dispatch] = useAtom(laneAtomsAtom);
 
   return (
     <Container>
       <Row className={"justify-content-center"}>
-        {lanesAtom.map((laneAtom, index) => (
+        {laneAtoms.map((laneAtom, index) => (
           <Col key={index} className={"col-lg-4"}>
-            <Lane laneAtom={laneAtom} />
+            <Lane
+              index={index}
+              laneAtom={laneAtom}
+              remove={() => dispatch({ type: "remove", atom: laneAtom })}
+              duplicate={(lane) => dispatch({ type: "insert", value: lane })}
+            />
           </Col>
         ))}
       </Row>
