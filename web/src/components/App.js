@@ -1,10 +1,11 @@
-import "./App.css";
+import "../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Lane from "./components/Lane";
+import Lane from "./Lane";
 import { Col, Container, Row } from "react-bootstrap";
 import { useAtom, useAtomValue } from "jotai";
-import { domainAtom, laneAtomsAtom } from "./states/domainAtom";
-import ReportButton from "./components/ReportButton";
+import { domainAtom, laneAtomsAtom } from "../states/domainAtom";
+import ReportButton from "./ReportButton";
+import SaveButton from "./SaveButton";
 
 const App = () => {
   const [laneAtoms, dispatch] = useAtom(laneAtomsAtom);
@@ -14,7 +15,8 @@ const App = () => {
     <Container>
       <div title={`lanes-${domain.lanes.map((l) => l.name).join("-")}`} />
       <ReportButton />
-      <Row className={"justify-content-center"}>
+      <SaveButton />
+      <Row style={{ flexWrap: "nowrap", overflowX: "auto" }}>
         {laneAtoms.map((laneAtom, index) => (
           <Col key={index} className={"col-lg-4"}>
             <Lane

@@ -2,12 +2,15 @@ import { render, renderHook, screen } from "@testing-library/react";
 import App from "./App";
 import userEvent from "@testing-library/user-event";
 import { useUpdateAtom } from "jotai/utils";
-import { domainAtom } from "./states/domainAtom";
+import { domainAtom } from "../states/domainAtom";
 
 const mockLane = jest.fn();
 const mockReport = jest.fn();
-jest.mock("./components/Lane", () => (a) => mockLane(a));
-jest.mock("./components/ReportButton", () => (a) => mockReport(a));
+let mockSave = jest.fn();
+
+jest.mock("./Lane", () => (a) => mockLane(a));
+jest.mock("./ReportButton", () => (a) => mockReport(a));
+jest.mock("./SaveButton", () => (a) => mockSave(a));
 
 const getDomain = () => ({
   lanes: [
@@ -54,5 +57,9 @@ describe("App", () => {
   test("should render reports", () => {
     render(<App />);
     expect(mockReport).toBeCalledWith({});
+  });
+  test("should render save", () => {
+    render(<App />);
+    expect(mockSave).toBeCalledWith({});
   });
 });

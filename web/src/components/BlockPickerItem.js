@@ -10,6 +10,10 @@ const BlockPickerItem = ({ blockAtom }) => {
   if (block.show) {
     return <></>;
   }
-  return <Button onClick={showBlock}>{block.name}</Button>;
+  return (
+    <Button className={"m-1"} onClick={showBlock}>
+      {block.name}
+    </Button>
+  );
 };
 export default BlockPickerItem;
