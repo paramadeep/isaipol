@@ -2,39 +2,38 @@ import enrichDomain from "./enrichDomain";
 
 const domain = {
   name: "ice cream bill",
-  defaults: ["quantity", "scoops", "flavour"],
+  defaults: ["quantity", "coating", "finish", "colors"],
   blocks: [
     { name: "quantity", input: 1 },
-    { name: "scoops", input: 1 },
     {
-      name: "flavour",
-      input: ["strawberry", "vanilla"],
+      name: "coating",
+      input: ["varnish", "aqua"],
       compute: (i, o) => {
-        const costMap = { strawberry: 30, vanilla: 20 };
-        o.cost = i.scoops * costMap[i.flavour] * i.quantity;
+        const costMap = { varnish: 3, aqua: 2 };
+        o.cost = o.cost + costMap[i.coating];
       },
     },
     {
-      name: "container",
-      input: ["cup", "cone"],
+      name: "finish",
+      input: ["matt", "gloss"],
       compute: (i, o) => {
-        const costMap = { cup: 3, cone: 2 };
-        o.cost = o.cost + costMap[i.container] * i.quantity;
-        o.CostPeritem = o.CostPeritem + costMap[i.container];
+        const costMap = { matt: 4, gloss: 5 };
+        o.cost = o.cost + costMap[i.finish];
       },
     },
     {
-      name: "sauce",
-      input: ["chocolate", "blackcurrant"],
+      name: "colors",
+      input: ["four", "double", "single"],
       compute: (i, o) => {
-        const costMap = { chocolate: 5, blackcurrant: 2 };
-        o.cost = o.cost + costMap[i.sauce];
+        const costMap = { four: 3, double: 2, single: 1 };
+        o.cost = o.cost + costMap[i.colors] * i.quantity;
       },
     },
   ],
-  output: ["cost", "costPeritem"],
-  reportFields: ["cost", "quantity"],
-  reportGroup: ["scoop"],
+  output: ["cost"],
+  reportRow: "quantity",
+  reportValue: "cost",
+  reportGroup: ["coating", "finish", "colors"],
 };
 enrichDomain(domain);
 export default domain;
