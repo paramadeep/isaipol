@@ -35,7 +35,7 @@ describe("Output Atom", () => {
     );
     expect(result.current.b).toBe(0);
   });
-  test("should use value of input blocks, even not shown", () => {
+  test("should not use value of input blocks, even not shown", () => {
     const laneAtom = atom({
       ...lane(),
       blocks: [
@@ -53,7 +53,7 @@ describe("Output Atom", () => {
     const { result } = renderHook(() =>
       useAtomValue(useMemo(() => outputAtom(laneAtom), [laneAtom]))
     );
-    expect(result.current.b).toBe(3);
+    expect(result.current.b).toBeNaN();
   });
   test("should process all blocks with compute", () => {
     const laneAtom = atom({

@@ -33,6 +33,8 @@ const domain = {
     },
   ],
   output: ["cost", "costPeritem"],
+  reportFields: ["cost", "quantity"],
+  reportGroup: ["scoop"],
 };
 enrichDomain(domain);
 export default domain;

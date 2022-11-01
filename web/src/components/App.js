@@ -18,7 +18,7 @@ const App = () => {
       <SaveButton />
       <Row style={{ flexWrap: "nowrap", overflowX: "auto" }}>
         {laneAtoms.map((laneAtom, index) => (
-          <Col key={index} className={"col-lg-4"}>
+          <Col key={index} className={"col-sm-3"}>
             <Lane
               index={index}
               laneAtom={laneAtom}

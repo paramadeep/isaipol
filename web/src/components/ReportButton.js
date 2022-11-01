@@ -1,14 +1,16 @@
-import { Button } from "react-bootstrap";
-import { useState } from "react";
-import Report from "./Report";
+import { Accordion } from "react-bootstrap";
+import ReportBody from "./ReportBody";
 
 const ReportButton = () => {
-  const [reportShow, setReportShow] = useState(false);
   return (
-    <>
-      <Button onClick={() => setReportShow(true)}>Report</Button>
-      <Report show={reportShow} onHide={() => setReportShow(false)}></Report>
-    </>
+    <Accordion>
+      <Accordion.Item>
+        <Accordion.Header>Report</Accordion.Header>
+        <Accordion.Body>
+          <ReportBody />
+        </Accordion.Body>
+      </Accordion.Item>
+    </Accordion>
   );
 };
 
