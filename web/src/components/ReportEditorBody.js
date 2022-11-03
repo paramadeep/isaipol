@@ -25,8 +25,10 @@ const ReportEditorBody = () => {
     if (!result.destination) {
       return;
     }
-
-    compute[result.destination.droppableId](result.draggableId);
+    compute[result.destination.droppableId]({
+      name: result.draggableId,
+      index: result.destination.index,
+    });
   };
   return (
     <DragDropContext onDragEnd={onDragEnd}>

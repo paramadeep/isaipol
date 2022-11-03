@@ -10,31 +10,38 @@ const ReportGroup = ({ dropId }) => {
     <>
       <div>Report Group Fields :</div>
       <Droppable droppableId={dropId} direction="horizontal">
-        {(provided, snapshot) => (
-          <div
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            style={{ minHeight: 30 }}
-            className="border border-primary"
-          >
-            {reportGroup.map((item, index) => (
-              <Draggable key={item.name} draggableId={item.name} index={index}>
-                {(provided, snapshot) => (
-                  <Badge
-                    className="m-1"
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                  >
-                    <FaArrowsAlt title={item.name} />
-                    {` ${item.name}`}
-                  </Badge>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </div>
-        )}
+        {(provided, snapshot) => {
+          console.log(snapshot);
+          return (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              style={{ minHeight: 30 }}
+              className="border border-primary"
+            >
+              {reportGroup.map((item, index) => (
+                <Draggable
+                  key={item.name}
+                  draggableId={item.name}
+                  index={index}
+                >
+                  {(provided) => (
+                    <Badge
+                      className="m-1"
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <FaArrowsAlt title={item.name} />
+                      {` ${item.name}`}
+                    </Badge>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          );
+        }}
       </Droppable>
     </>
   );
