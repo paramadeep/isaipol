@@ -4,6 +4,11 @@ import { Button, Table } from "react-bootstrap";
 import { computeLane } from "../states/computeLane";
 import ReportEditor from "./ReportEditor";
 import { useState } from "react";
+import {
+  reportGroupAtom,
+  reportRowAtom,
+  reportValueAtom,
+} from "../states/reportAtom";
 
 const ReportBody = () => {
   const [show, setShow] = useState(false);
@@ -12,11 +17,14 @@ const ReportBody = () => {
   const handleShow = () => setShow(true);
 
   const domain = useAtomValue(domainAtom);
+  const reportValue = useAtomValue(reportValueAtom);
+  const reportRow = useAtomValue(reportRowAtom);
+  const reportGroup = useAtomValue(reportGroupAtom);
   const computedValues = domain.lanes.map((lane) => {
     const { inputs, output } = computeLane(lane);
     return { ...inputs, ...output };
   });
-  const headerValues = domain.reportGroup.map((field) => ({
+  const headerValues = reportGroup.map((field) => ({
     field,
     values: [...new Set(computedValues.map((val) => val[field]))],
   }));
@@ -40,7 +48,7 @@ const ReportBody = () => {
       field: header.field,
       value,
     }));
-    if (groupFilters.length == 0) {
+    if (groupFilters.length === 0) {
       groupFilters = headerFilters.map((filter) => [filter]);
       return;
     }
@@ -52,26 +60,26 @@ const ReportBody = () => {
     }
     groupFilters = [...combinedFilters];
   });
-  const rows = [...new Set(computedValues.map((val) => val[domain.reportRow]))];
+  const rows = [...new Set(computedValues.map((val) => val[reportRow]))];
   const rowFilters = rows.map((row) => ({
-    field: domain.reportRow,
+    field: reportRow,
     value: row,
   }));
   const rowValues = rowFilters.map((rowFilter) => {
     const filteredVals = computedValues.filter(
-      (val) => val[rowFilter.field] == rowFilter.value
+      (val) => val[rowFilter.field].toString() === rowFilter.value.toString()
     );
     const values = groupFilters.map((filters) => {
       let localVals = [...filteredVals];
       filters.forEach((filter) => {
         localVals = localVals.filter(
-          (val) => val[filter.field] == filter.value
+          (val) => val[filter.field].toString() === filter.value.toString()
         );
       });
       if (localVals && localVals.length === 0) {
         return "-";
       }
-      const rowValue = localVals[0][domain.reportValue];
+      const rowValue = localVals[0][reportValue];
       return rowValue ? rowValue : "-";
     });
     return { field: rowFilter.value, values };

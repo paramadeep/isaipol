@@ -13,7 +13,7 @@ const initialValue = [
 }));
 initialValue.find((f) => f.name === inlineDomain.reportRow).isRow = true;
 initialValue.find((f) => f.name === inlineDomain.reportValue).isValue = true;
-inlineDomain.reportGroup.map((group, index) => {
+inlineDomain.reportGroup.forEach((group, index) => {
   const field = initialValue.find((b) => b.name === group);
   field.isGroup = true;
   field.groupIndex = index;
@@ -23,7 +23,7 @@ initialValue
   .forEach((f) => (f.isGroup = true));
 export const reportStructure = atom(initialValue);
 export const reportValueAtom = atom(
-  (get) => get(reportStructure).find((f) => f.isValue),
+  (get) => get(reportStructure).find((f) => f.isValue).name,
   (get, set, { name }) => {
     const newStructure = [...get(reportStructure)];
     newStructure.filter((f) => f.isValue).forEach((f) => (f.isValue = false));
@@ -36,7 +36,7 @@ export const reportValueAtom = atom(
   }
 );
 export const reportRowAtom = atom(
-  (get) => get(reportStructure).find((f) => f.isRow),
+  (get) => get(reportStructure).find((f) => f.isRow).name,
   (get, set, { name, index }) => {
     const newStructure = [...get(reportStructure)];
     newStructure.filter((f) => f.isRow).forEach((f) => (f.isRow = false));
@@ -52,7 +52,8 @@ export const reportGroupAtom = atom(
   (get) =>
     get(reportStructure)
       .filter((f) => f.isGroup)
-      .sort((a, b) => a.groupIndex - b.groupIndex),
+      .sort((a, b) => a.groupIndex - b.groupIndex)
+      .map((f) => f.name),
   (get, set, { name, index }) => {
     const newStructure = [...get(reportStructure)];
     const oldGroup = [
@@ -80,7 +81,9 @@ export const reportGroupAtom = atom(
 );
 export const reportUnusedAtom = atom(
   (get) =>
-    get(reportStructure).filter((f) => !(f.isRow || f.isValue || f.isGroup)),
+    get(reportStructure)
+      .filter((f) => !(f.isRow || f.isValue || f.isGroup))
+      .map((f) => f.name),
   (get, set, { name }) => {
     const newStructure = [...get(reportStructure)];
     const fieldToUpdate = newStructure.find((f) => f.name === name);

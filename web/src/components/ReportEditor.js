@@ -1,4 +1,4 @@
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import ReportEditorBody from "./ReportEditorBody";
 
 const ReportEditor = ({ show, onHide }) => {

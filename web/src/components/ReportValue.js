@@ -11,7 +11,7 @@ const ReportValue = ({ dropId }) => {
       <Droppable droppableId={dropId} direction="horizontal">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
-            <Badge>{reportValue.name}</Badge>
+            <Badge>{reportValue}</Badge>
             <p className="fs-6 fw-lighter">(drag on me to replace me)</p>
             {provided.placeholder}
           </div>

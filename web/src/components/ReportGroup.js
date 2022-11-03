@@ -10,8 +10,7 @@ const ReportGroup = ({ dropId }) => {
     <>
       <div>Report Group Fields :</div>
       <Droppable droppableId={dropId} direction="horizontal">
-        {(provided, snapshot) => {
-          console.log(snapshot);
+        {(provided) => {
           return (
             <div
               {...provided.droppableProps}
@@ -20,11 +19,7 @@ const ReportGroup = ({ dropId }) => {
               className="border border-primary"
             >
               {reportGroup.map((item, index) => (
-                <Draggable
-                  key={item.name}
-                  draggableId={item.name}
-                  index={index}
-                >
+                <Draggable key={item} draggableId={item} index={index}>
                   {(provided) => (
                     <Badge
                       className="m-1"
@@ -32,8 +27,8 @@ const ReportGroup = ({ dropId }) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <FaArrowsAlt title={item.name} />
-                      {` ${item.name}`}
+                      <FaArrowsAlt />
+                      {` ${item}`}
                     </Badge>
                   )}
                 </Draggable>

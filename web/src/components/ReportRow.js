@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
-import { reportRowAtom, reportValueAtom } from "../states/reportAtom";
-import { Draggable, Droppable } from "react-beautiful-dnd";
+import { reportRowAtom } from "../states/reportAtom";
+import { Droppable } from "react-beautiful-dnd";
 import { Badge } from "react-bootstrap";
 
 const ReportRow = ({ dropId }) => {
@@ -11,7 +11,7 @@ const ReportRow = ({ dropId }) => {
       <Droppable droppableId={dropId} direction="horizontal">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
-            <Badge>{reportRow.name}</Badge>
+            <Badge>{reportRow}</Badge>
             <p className="fs-6 fw-lighter">(drag on me to replace me)</p>
             {provided.placeholder}
           </div>

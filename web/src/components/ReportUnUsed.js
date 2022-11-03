@@ -19,11 +19,7 @@ const ReportUnUsed = ({ dropId }) => {
               className="border border-primary"
             >
               {reportUnUsed.map((item, index) => (
-                <Draggable
-                  key={item.name}
-                  draggableId={item.name}
-                  index={index}
-                >
+                <Draggable key={item} draggableId={item} index={index}>
                   {(provided, snapshot) => (
                     <Badge
                       className="m-1"
@@ -31,8 +27,8 @@ const ReportUnUsed = ({ dropId }) => {
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                     >
-                      <FaArrowsAlt title={item.name} />
-                      {` ${item.name}`}
+                      <FaArrowsAlt />
+                      {` ${item}`}
                     </Badge>
                   )}
                 </Draggable>
