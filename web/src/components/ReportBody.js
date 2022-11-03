@@ -2,8 +2,15 @@ import { useAtomValue } from "jotai";
 import { domainAtom } from "../states/domainAtom";
 import { Button, Table } from "react-bootstrap";
 import { computeLane } from "../states/computeLane";
+import ReportEditor from "./ReportEditor";
+import { useState } from "react";
 
 const ReportBody = () => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const domain = useAtomValue(domainAtom);
   const computedValues = domain.lanes.map((lane) => {
     const { inputs, output } = computeLane(lane);
@@ -18,7 +25,6 @@ const ReportBody = () => {
     1
   );
   let previousColCount = 1;
-  let valueSplit = [...computedValues];
   headerValues.forEach((header) => {
     header.colSpan = columCount / (header.values.length * previousColCount);
     header.actualValues = [...header.values];
@@ -73,7 +79,10 @@ const ReportBody = () => {
 
   return (
     <>
-      <Button className={"m-1"}>Edit</Button>
+      <Button className={"m-1"} onClick={handleShow}>
+        Edit
+      </Button>
+      <ReportEditor show={show} onHide={handleClose}></ReportEditor>
       <Table
         hover={true}
         bordered={true}

@@ -29,6 +29,10 @@ const domain = {
         o.cost = o.cost + costMap[i.colors] * i.quantity;
       },
     },
+    {
+      name: "side",
+      input: 2,
+    },
   ],
   output: ["cost"],
   reportRow: "quantity",
