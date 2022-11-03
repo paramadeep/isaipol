@@ -1,8 +1,8 @@
 import { render, renderHook, screen } from "@testing-library/react";
-import App from "./App";
 import userEvent from "@testing-library/user-event";
 import { useUpdateAtom } from "jotai/utils";
 import { domainAtom } from "../states/domainAtom";
+import Domain from "./Domain";
 
 const mockLane = jest.fn();
 const mockReport = jest.fn();
@@ -32,7 +32,7 @@ describe("App", () => {
     jest.resetAllMocks();
   });
   test("renders lanes passed", () => {
-    render(<App />);
+    render(<Domain />);
     expect(mockLane).toBeCalledTimes(2);
     expect(screen.getByTitle("lanes-1-2")).toBeVisible();
   });
@@ -42,7 +42,7 @@ describe("App", () => {
         <div onClick={() => duplicate({ name: 3 })}>{`dispatch-${index}`}</div>
       );
     });
-    render(<App />);
+    render(<Domain />);
     userEvent.click(screen.getByText("dispatch-0"));
     expect(screen.getByTitle("lanes-1-2-3")).toBeVisible();
   });
@@ -50,16 +50,16 @@ describe("App", () => {
     mockLane.mockReset().mockImplementation(({ remove, index }) => {
       return <div onClick={remove}>{`dispatch-${index}`}</div>;
     });
-    render(<App />);
+    render(<Domain />);
     userEvent.click(screen.getByText("dispatch-0"));
     expect(screen.getByTitle("lanes-2")).toBeVisible();
   });
   test("should render reports", () => {
-    render(<App />);
+    render(<Domain />);
     expect(mockReport).toBeCalledWith({});
   });
   test("should render save", () => {
-    render(<App />);
+    render(<Domain />);
     expect(mockSave).toBeCalledWith({});
   });
 });
