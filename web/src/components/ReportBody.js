@@ -9,6 +9,7 @@ import {
   reportRowAtom,
   reportValueAtom,
 } from "../states/reportAtom";
+import Specs from "./Specs";
 
 const ReportBody = () => {
   const [show, setShow] = useState(false);
@@ -91,6 +92,7 @@ const ReportBody = () => {
         Edit
       </Button>
       <ReportEditor show={show} onHide={handleClose}></ReportEditor>
+      <Specs />
       <Table
         hover={true}
         bordered={true}

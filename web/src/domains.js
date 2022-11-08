@@ -1,6 +1,6 @@
 const iceCream = {
   name: "ice cream bill",
-  defaults: ["quantity", "coating", "finish", "colors"],
+  defaults: ["quantity", "coating", "finish", "colors", "side"],
   blocks: [
     { name: "quantity", input: 1 },
     {
@@ -36,12 +36,16 @@ const iceCream = {
   reportRow: "quantity",
   reportValue: "cost",
   reportGroup: ["coating", "finish", "colors"],
+  reportSpecs: ["side"],
+  customFields: ["cuostomer name"],
 };
 const sandwich = {
   name: "sandwich",
   defaults: ["quantity1", "coating", "finish", "colors"],
   blocks: [
     { name: "quantity1", input: 1 },
+
+    { name: "side", input: 1 },
     {
       name: "coating",
       input: ["varnish", "aqua"],
@@ -71,6 +75,7 @@ const sandwich = {
   reportRow: "quantity1",
   reportValue: "cost",
   reportGroup: ["coating", "finish", "colors"],
+  reportSpecs: ["side"],
 };
 const domains = [iceCream, sandwich];
 
