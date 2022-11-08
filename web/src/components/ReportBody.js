@@ -3,7 +3,7 @@ import { domainAtom } from "../states/domainAtom";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { computeLane } from "../states/computeLane";
 import ReportEditor from "./ReportEditor";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   reportGroupAtom,
   reportRowAtom,
@@ -14,6 +14,7 @@ import { FaEdit, FaPrint } from "react-icons/fa";
 import PrintReport from "./PrintReport";
 import CustomTopFields from "./CustomTopFields";
 import CustomBottomFields from "./CustomBottomFields";
+import ReactToPrint from "react-to-print";
 
 const ReportBody = () => {
   const [show, setShow] = useState(false);
@@ -90,6 +91,7 @@ const ReportBody = () => {
     return { field: rowFilter.value, values };
   });
 
+  let componentRef = useRef();
   return (
     <>
       <Container>
@@ -99,14 +101,20 @@ const ReportBody = () => {
               <FaEdit />
             </Button>
             <ReportEditor show={show} onHide={handleClose}></ReportEditor>
-            <Button className={"m-1"} onClick={handleShow}>
-              <FaPrint />
-            </Button>
+
             <PrintReport />
+            <ReactToPrint
+              trigger={() => (
+                <Button className={"m-1"} onClick={handleShow}>
+                  <FaPrint />
+                </Button>
+              )}
+              content={() => componentRef.current}
+            />
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col ref={componentRef}>
             <CustomTopFields />
             <Specs />
             <Table
