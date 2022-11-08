@@ -8,7 +8,7 @@ export default function NumberField({ blockInputAtom }) {
       type={"number"}
       data-testid={"number"}
       defaultValue={value}
-      onChange={(e) => update(e.target.value)}
+      onChange={(e) => update(Number(e.target.value))}
     />
   );
 }
