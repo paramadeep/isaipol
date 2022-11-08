@@ -1,6 +1,6 @@
 import { useAtomValue } from "jotai";
 import { domainAtom } from "../states/domainAtom";
-import { Button, Table } from "react-bootstrap";
+import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { computeLane } from "../states/computeLane";
 import ReportEditor from "./ReportEditor";
 import { useState } from "react";
@@ -10,6 +10,10 @@ import {
   reportValueAtom,
 } from "../states/reportAtom";
 import Specs from "./Specs";
+import { FaEdit, FaPrint } from "react-icons/fa";
+import PrintReport from "./PrintReport";
+import CustomTopFields from "./CustomTopFields";
+import CustomBottomFields from "./CustomBottomFields";
 
 const ReportBody = () => {
   const [show, setShow] = useState(false);
@@ -88,40 +92,56 @@ const ReportBody = () => {
 
   return (
     <>
-      <Button className={"m-1"} onClick={handleShow}>
-        Edit
-      </Button>
-      <ReportEditor show={show} onHide={handleClose}></ReportEditor>
-      <Specs />
-      <Table
-        hover={true}
-        bordered={true}
-        striped={true}
-        className="text-center"
-      >
-        <thead>
-          {headerValues.map((group, index) => (
-            <tr key={index}>
-              <th>{group.field}</th>
-              {group.actualValues.map((value, index) => (
-                <th key={index} colSpan={group.colSpan}>
-                  {value}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {rowValues.map((row, index) => (
-            <tr key={index}>
-              <td>{row.field}</td>
-              {row.values.map((value, index) => (
-                <th key={index}>{value}</th>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+      <Container>
+        <Row>
+          <Col>
+            <Button className={"m-1"} onClick={handleShow}>
+              <FaEdit />
+            </Button>
+            <ReportEditor show={show} onHide={handleClose}></ReportEditor>
+            <Button className={"m-1"} onClick={handleShow}>
+              <FaPrint />
+            </Button>
+            <PrintReport />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <CustomTopFields />
+            <Specs />
+            <Table
+              hover={true}
+              bordered={true}
+              striped={true}
+              className="text-center"
+            >
+              <thead>
+                {headerValues.map((group, index) => (
+                  <tr key={index}>
+                    <th>{group.field}</th>
+                    {group.actualValues.map((value, index) => (
+                      <th key={index} colSpan={group.colSpan}>
+                        {value}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              <tbody>
+                {rowValues.map((row, index) => (
+                  <tr key={index}>
+                    <td>{row.field}</td>
+                    {row.values.map((value, index) => (
+                      <th key={index}>{value}</th>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            <CustomBottomFields />
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };

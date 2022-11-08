@@ -1,6 +1,11 @@
 const iceCream = {
   name: "ice cream bill",
   defaults: ["quantity", "coating", "finish", "colors", "side"],
+  customTopFields: [
+    { name: "Quotation For", value: "" },
+    { name: "Quotation Date", value: new Date().toLocaleDateString() },
+  ],
+  customBottomFields: [{ name: "Delivery Date", value: "" }],
   blocks: [
     { name: "quantity", input: 1 },
     {
