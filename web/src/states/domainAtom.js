@@ -7,21 +7,30 @@ export const domainNamesAtom = atom((get) =>
   get(domainsAtom).map((d) => d.name)
 );
 export const selectedDomainAtom = atom();
-export const domainAtom =
-  atom();
-  //   (get) => get(domainsAtom).find((d) => d.name === get(selectedDomainAtom)),
-  //   (get, set, val) => {
-  //     const newDomains = [...get(domainsAtom)];
-  //     let index = newDomains.findIndex(({ name }) => name === val.name);
-  //     newDomains.splice(index, 1, val);
-  //     return set(domainsAtom, newDomains);
-  //   }
+export const domainAtom = atom();
+
 export const lanesAtom = atom(
   (get) => get(domainAtom).lanes,
-  (get, set, newLanes) => {
+  (get, set, lanes) => {
     const domain = get(domainAtom);
-    const newDomain = { ...domain, lanes: newLanes };
+    const newDomain = { ...domain, lanes };
     set(domainAtom, newDomain);
   }
 );
+export const customBottomFieldsAtom = atom(
+  (get) => get(domainAtom).customBottomFields,
+  (get, set, customBottomFields) => {
+    const domain = { ...get(domainAtom) };
+    set(domainAtom, { ...domain, customBottomFields });
+  }
+);
+export const customTopFieldsAtom = atom(
+  (get) => get(domainAtom).customTopFields,
+  (get, set, customTopFields) => {
+    const domain = { ...get(domainAtom) };
+    set(domainAtom, { ...domain, customTopFields });
+  }
+);
+export const customBottomFieldAtomsAtom = splitAtom(customBottomFieldsAtom);
+export const customTopFieldAtomsAtom = splitAtom(customTopFieldsAtom);
 export const laneAtomsAtom = splitAtom(lanesAtom);

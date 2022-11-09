@@ -78,7 +78,6 @@ const ReportBody = () => {
     const values = groupFilters.map((filters) => {
       let localVals = [...filteredVals];
       filters.forEach((filter) => {
-        console.log(localVals);
         localVals = localVals.filter(
           (val) =>
             filter.value &&

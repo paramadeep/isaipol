@@ -1,15 +1,16 @@
-import { useAtomValue } from "jotai/utils";
-import { domainAtom } from "../states/domainAtom";
-import { FloatingLabel, Form } from "react-bootstrap";
+import CustomReportField from "./CustomReportField";
+import { useAtom } from "jotai";
+import { customBottomFieldAtomsAtom } from "../states/domainAtom";
 
 const CustomBottomFields = () => {
-  const customBottomFields = useAtomValue(domainAtom).customBottomFields;
+  const [customBottomFieldAtoms] = useAtom(customBottomFieldAtomsAtom);
   return (
     <>
-      {customBottomFields.map((field, index) => (
-        <FloatingLabel label={field.name} key={index}>
-          <Form.Control type="text" />
-        </FloatingLabel>
+      {customBottomFieldAtoms.map((customBottomFieldAtom, index) => (
+        <CustomReportField
+          customFieldAtom={customBottomFieldAtom}
+          key={index}
+        />
       ))}
     </>
   );
