@@ -2,7 +2,7 @@ import { render, renderHook, screen } from "@testing-library/react";
 import BlockPicker from "./BlockPicker";
 import userEvent from "@testing-library/user-event";
 import { splitAtom } from "jotai/utils";
-import { atom, useAtom, useAtomValue } from "jotai";
+import { atom, useAtom } from "jotai";
 
 const mockBlockPickerItem = jest.fn();
 jest.mock("./BlockPickerItem", () => (a) => mockBlockPickerItem(a));

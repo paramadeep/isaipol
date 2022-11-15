@@ -4,7 +4,7 @@ import ReportBody from "./ReportBody";
 const ReportButton = () => {
   return (
     <Accordion>
-      <Accordion.Item>
+      <Accordion.Item eventKey="1">
         <Accordion.Header>Report</Accordion.Header>
         <Accordion.Body>
           <ReportBody />
