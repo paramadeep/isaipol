@@ -3,11 +3,6 @@ import { FaPrint } from "react-icons/fa";
 import html2canvas from "html2canvas";
 
 const ScreenShot = ({ element }) => {
-  // const [_, takeScreenShot] = useScreenshot({
-  //   type: "image/jpeg",
-  //   quality: 1.0,
-  //   useCORS: true,
-  // });
   const downloadScreenshot = () => {
     html2canvas(element, { useCORS: true })
       .then((canvas) => {

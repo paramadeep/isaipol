@@ -15,6 +15,14 @@ import CustomTopFields from "./CustomTopFields";
 import CustomBottomFields from "./CustomBottomFields";
 import ScreenShot from "./ScreenShot";
 
+function getRowValue(localVals, reportValue) {
+  if (localVals && localVals.length === 0) {
+    return "-";
+  }
+  const rowValue = localVals[0][reportValue];
+  return rowValue ? rowValue : "-";
+}
+
 const ReportBody = () => {
   const [show, setShow] = useState(false);
 
@@ -46,7 +54,6 @@ const ReportBody = () => {
     }
     previousColCount = header.values.length * previousColCount;
   });
-
   let groupFilters = [];
   headerValues.forEach((header) => {
     const headerFilters = header.values.map((value) => ({
@@ -74,25 +81,25 @@ const ReportBody = () => {
     const filteredVals = computedValues.filter(
       (val) => val[rowFilter.field].toString() === rowFilter.value.toString()
     );
-    const values = groupFilters.map((filters) => {
-      let localVals = [...filteredVals];
-      filters.forEach((filter) => {
-        localVals = localVals.filter(
-          (val) =>
-            filter.value &&
-            filter &&
-            val[filter.field].toString() === filter.value.toString()
-        );
+    let values;
+    if (groupFilters.length === 0) {
+      values = [getRowValue(filteredVals, reportValue)];
+    } else {
+      values = groupFilters.map((filters) => {
+        let localVals = [...filteredVals];
+        filters.forEach((filter) => {
+          localVals = localVals.filter(
+            (val) =>
+              filter.value &&
+              filter &&
+              val[filter.field].toString() === filter.value.toString()
+          );
+        });
+        return getRowValue(localVals, reportValue);
       });
-      if (localVals && localVals.length === 0) {
-        return "-";
-      }
-      const rowValue = localVals[0][reportValue];
-      return rowValue ? rowValue : "-";
-    });
+    }
     return { field: rowFilter.value, values };
   });
-
   let componentRef = useRef();
   return (
     <>
@@ -134,6 +141,10 @@ const ReportBody = () => {
                     ))}
                   </tr>
                 ))}
+                <tr>
+                  <th>{reportRow}</th>
+                  <th colSpan={previousColCount}>{reportValue}</th>
+                </tr>
               </thead>
               <tbody>
                 {rowValues.map((row, index) => (
