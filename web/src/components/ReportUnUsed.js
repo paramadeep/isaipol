@@ -13,7 +13,7 @@ const ReportUnUsed = ({ dropId }) => {
     e.preventDefault();
     const enteredValue = e.target.value;
     setFilter(enteredValue);
-    if (!enteredValue || enteredValue.trim() == "") {
+    if (!enteredValue || enteredValue.trim() === "") {
       setBlocksToShow(reportUnUsed);
       return;
     }
