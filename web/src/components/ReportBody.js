@@ -114,9 +114,9 @@ const ReportBody = () => {
           </Col>
         </Row>
       </Container>
-      <Container ref={componentRef}>
+      <Container id="report" sm={1} ref={componentRef}>
         <Row>
-          <Col sm={2} className={"mx-auto mb-1"}>
+          <Col sm={4} className={"mx-auto mb-1"}>
             <Image fluid src={"./report_logo.png"} />
           </Col>
         </Row>
