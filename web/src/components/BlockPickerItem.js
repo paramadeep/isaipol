@@ -10,8 +10,7 @@ const BlockPickerItem = ({ blockAtom, search }) => {
   if (block.show) {
     return <></>;
   }
-  console.log(search);
-  if (search == "" || block.name.includes(search)) {
+  if (search == "" || block.name.toLowerCase().includes(search.toLowerCase())) {
     return (
       <Button className={"m-1"} onClick={showBlock}>
         {block.name}

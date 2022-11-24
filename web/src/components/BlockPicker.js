@@ -7,6 +7,10 @@ const BlockPicker = ({ show, blockAtomsAtom, onHide }) => {
   const [blockAtoms] = useAtom(blockAtomsAtom);
   const [search, setSearch] = useState("");
 
+  const onChange = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
+  };
   return (
     <Modal show={show} onHide={onHide} size="md">
       <Modal.Header closeButton>
@@ -20,7 +24,7 @@ const BlockPicker = ({ show, blockAtomsAtom, onHide }) => {
           type="text"
           placeholder="search block to add"
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={onChange}
           autoFocus
         />
         {blockAtoms.map((blockAtom, index) => (

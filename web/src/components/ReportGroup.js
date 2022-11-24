@@ -19,19 +19,21 @@ const ReportGroup = ({ dropId }) => {
               className="border border-primary"
             >
               {reportGroup.map((item, index) => (
-                <Draggable key={item} draggableId={item} index={index}>
-                  {(provided) => (
-                    <Badge
-                      className="m-1"
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                    >
-                      <FaArrowsAlt />
-                      {` ${item}`}
-                    </Badge>
-                  )}
-                </Draggable>
+                <>
+                  <Draggable key={item} draggableId={item} index={index}>
+                    {(provided) => (
+                      <Badge
+                        className="m-2"
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <FaArrowsAlt />
+                        {` ${item}`}
+                      </Badge>
+                    )}
+                  </Draggable>
+                </>
               ))}
               {provided.placeholder}
             </div>
