@@ -8,11 +8,13 @@ export default function NumberField({ blockInputAtom }) {
     update(Number(e.target.value));
   };
   return (
-    <Form.Control
-      type={"number"}
-      data-testid={"number"}
-      defaultValue={value}
-      onChange={handleChange}
-    />
+    <>
+      <Form.Control
+        type={"number"}
+        data-testid={"number"}
+        value={value}
+        onChange={handleChange}
+      />
+    </>
   );
 }

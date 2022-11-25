@@ -1,7 +1,7 @@
 import { atom } from "jotai";
 
-const blockInputAtom = (blockAtom) =>
-  atom(
+const blockInputAtom = (blockAtom) => {
+  return atom(
     (get) => {
       const { input, value, type } = get(blockAtom);
       return { input, value, type };
@@ -10,4 +10,5 @@ const blockInputAtom = (blockAtom) =>
       set(blockAtom, { ...get(blockAtom), value });
     }
   );
+};
 export default blockInputAtom;

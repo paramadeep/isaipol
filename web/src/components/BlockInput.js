@@ -1,17 +1,17 @@
 import NumberField from "./fields/NumberField";
 import ArrayField from "./fields/ArrayField";
-import { Form } from "react-bootstrap";
 import { useAtom } from "jotai";
 
+const fieldPicker = { number: NumberField, array: ArrayField };
 const BlockInput = ({ updateBlockAtom }) => {
   const [block] = useAtom(updateBlockAtom);
-  let InputField;
-  if (block.type === "number") {
-    InputField = <NumberField blockInputAtom={updateBlockAtom} />;
-  } else {
-    InputField = <ArrayField blockInputAtom={updateBlockAtom} />;
-  }
-  return <Form>{InputField}</Form>;
+  const InputField = fieldPicker[block.type];
+
+  return (
+    <>
+      <InputField blockInputAtom={updateBlockAtom} />
+    </>
+  );
 };
 
 export default BlockInput;

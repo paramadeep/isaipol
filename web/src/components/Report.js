@@ -1,7 +1,7 @@
 import { Accordion } from "react-bootstrap";
 import ReportBody from "./ReportBody";
 
-const ReportButton = () => {
+const Report = () => {
   return (
     <Accordion>
       <Accordion.Item eventKey="1">
@@ -14,4 +14,4 @@ const ReportButton = () => {
   );
 };
 
-export default ReportButton;
+export default Report;

@@ -5,15 +5,19 @@ import RemoveBlock from "./RemoveBlock";
 import { useMemo } from "react";
 import blockInputAtom from "../states/blockInputAtom";
 import getRemoveBlockAtom from "../states/removeBlockAtom";
+import { commonBlockNamesAtom } from "../states/domainAtom";
 
 const Block = ({ blockAtom }) => {
   const block = useAtomValue(blockAtom);
+  const commonBlockNames = useAtomValue(commonBlockNamesAtom);
   const removeBlockAtom = useMemo(
     () => getRemoveBlockAtom(blockAtom),
     [blockAtom]
   );
-  const updateBlockAtom = useMemo(() => blockInputAtom(blockAtom), [blockAtom]);
-  if (!block.show) {
+  const updateBlockAtom = useMemo(() => {
+    return blockInputAtom(blockAtom);
+  }, [block.value]);
+  if (!block.show || commonBlockNames.includes(block.name)) {
     return <></>;
   }
   return (

@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 
 const ReportUnUsed = ({ dropId }) => {
   const reportUnUsed = useAtomValue(reportUnusedAtom);
-  console.log(reportUnUsed);
   const [filter, setFilter] = useState("");
   const [blocksToShow, setBlocksToShow] = useState(reportUnUsed);
   const handleFilter = (e) => {

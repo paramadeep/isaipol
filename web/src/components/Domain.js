@@ -2,8 +2,8 @@ import Lane from "./Lane";
 import { Col, Container, Row } from "react-bootstrap";
 import { useAtom, useAtomValue } from "jotai";
 import { domainAtom, laneAtomsAtom } from "../states/domainAtom";
-import ReportButton from "./ReportButton";
-import SaveButton from "./SaveButton";
+import Report from "./Report";
+import CommonBlocks from "./CommonBlocks";
 
 const Domain = () => {
   const [laneAtoms, dispatch] = useAtom(laneAtomsAtom);
@@ -12,8 +12,8 @@ const Domain = () => {
   return (
     <Container>
       <div title={`lanes-${domain.lanes.map((l) => l.name).join("-")}`} />
-      <ReportButton />
-      <SaveButton />
+      <Report />
+      <CommonBlocks />
       <Row style={{ flexWrap: "nowrap", overflowX: "auto" }}>
         {laneAtoms.map((laneAtom, index) => (
           <Col key={index} className={"col-sm-3"}>

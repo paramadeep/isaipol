@@ -106,6 +106,7 @@ export const reportUnusedAtom = atom(
     fieldToUpdate.groupIndex = null;
     fieldToUpdate.specIndex = null;
     fieldToUpdate.isSpec = false;
+    console.log(fieldToUpdate);
     set(reportStructureAtom, newStructure);
   }
 );
