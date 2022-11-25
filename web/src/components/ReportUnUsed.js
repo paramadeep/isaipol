@@ -3,25 +3,29 @@ import { reportUnusedAtom } from "../states/reportAtom";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { Badge, Form } from "react-bootstrap";
 import { FaArrowsAlt } from "react-icons/fa";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ReportUnUsed = ({ dropId }) => {
   const reportUnUsed = useAtomValue(reportUnusedAtom);
+  console.log(reportUnUsed);
   const [filter, setFilter] = useState("");
   const [blocksToShow, setBlocksToShow] = useState(reportUnUsed);
   const handleFilter = (e) => {
     e.preventDefault();
     const enteredValue = e.target.value;
     setFilter(enteredValue);
-    if (!enteredValue || enteredValue.trim() === "") {
+  };
+  useEffect(() => {
+    if (!filter || filter.trim() === "") {
       setBlocksToShow(reportUnUsed);
       return;
     }
-    const newBlocksToShow = reportUnUsed.filter((block) =>
-      block.toLowerCase().includes(enteredValue.toLowerCase())
+    setBlocksToShow(
+      reportUnUsed.filter((block) =>
+        block.toLowerCase().includes(filter.trim().toLowerCase())
+      )
     );
-    setBlocksToShow(newBlocksToShow);
-  };
+  }, [reportUnUsed, filter]);
 
   return (
     <>

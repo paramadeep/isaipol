@@ -141,6 +141,10 @@ const ReportBody = () => {
                     ))}
                   </tr>
                 ))}
+                <tr>
+                  <th>{reportRow}</th>
+                  <th colSpan={previousColCount}>{reportValue}</th>
+                </tr>
               </thead>
               <tbody>
                 {rowValues.map((row, index) => (
@@ -151,10 +155,6 @@ const ReportBody = () => {
                     ))}
                   </tr>
                 ))}
-                <tr>
-                  <td>{reportRow}</td>
-                  <td colSpan={previousColCount}>{reportValue}</td>
-                </tr>
               </tbody>
             </Table>
             <CustomBottomFields />
