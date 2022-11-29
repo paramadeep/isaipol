@@ -10,6 +10,10 @@ import {
 } from "../states/reportAtom";
 import { Provider } from "jotai";
 import Domain from "./Domain";
+import {
+  commonBlocksAtom,
+  getInitialCommons,
+} from "../states/commonBlocksAtom";
 
 const SelectedDomain = () => {
   const selectedDomain = useAtomValue(selectedDomainAtom);
@@ -17,11 +21,13 @@ const SelectedDomain = () => {
   if (selectedDomain) {
     const initialDomain = { ...domains.find((d) => d.name === selectedDomain) };
     const initialReport = getInitialReportStruct(initialDomain);
+    const initialCommons = getInitialCommons(initialDomain);
     return (
       <Provider
         initialValues={[
           [domainAtom, initialDomain],
           [reportStructureAtom, initialReport],
+          [commonBlocksAtom, initialCommons],
         ]}
       >
         <Domain />

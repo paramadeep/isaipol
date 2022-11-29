@@ -1,12 +1,12 @@
 import { Accordion } from "react-bootstrap";
-import { commonBlockAtomsAtom } from "../states/domainAtom";
 import { useAtom } from "jotai";
 import CommonBlock from "./CommonBlock";
+import { commonBlockAtomsAtom } from "../states/commonBlocksAtom";
 
 const CommonBlocks = () => {
   const [commonBlockAtoms] = useAtom(commonBlockAtomsAtom);
   return (
-    <Accordion>
+    <Accordion defaultActiveKey={"one"}>
       <Accordion.Item eventKey="one">
         <Accordion.Header>Common Values</Accordion.Header>
         <Accordion.Body>
