@@ -1,11 +1,7 @@
 import { atom } from "jotai";
 import { splitAtom } from "jotai/utils";
-import domains from "../services/domain/inlineDomain";
 
-export const domainsAtom = atom(domains);
-export const domainNamesAtom = atom((get) =>
-  get(domainsAtom).map((d) => d.name)
-);
+export const domainNamesAtom = atom(["iceCream"]);
 export const selectedDomainAtom = atom();
 export const domainAtom = atom();
 

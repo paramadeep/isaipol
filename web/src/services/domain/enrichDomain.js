@@ -59,9 +59,12 @@ const addBaseLane = (domain) => {
 };
 
 const enrichDomain = (domain) => {
+  console.log("enriching");
+  console.log(domain);
   enrichDomainBlocks(domain);
   updateDefaultBlocks(domain);
   updateInitialOutput(domain);
   addBaseLane(domain);
+  return domain;
 };
 export default enrichDomain;

@@ -44,6 +44,5 @@ const iceCream = {
   reportSpecs: ["side"],
   customFields: ["customer name"],
 };
-const domains = [iceCream];
-
-export default domains;
+console.log("I am loaded");
+export default iceCream;

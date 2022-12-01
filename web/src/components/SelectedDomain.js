@@ -1,9 +1,5 @@
 import { useAtomValue } from "jotai/utils";
-import {
-  domainAtom,
-  domainsAtom,
-  selectedDomainAtom,
-} from "../states/domainAtom";
+import { domainAtom, selectedDomainAtom } from "../states/domainAtom";
 import {
   getInitialReportStruct,
   reportStructureAtom,
@@ -14,14 +10,28 @@ import {
   commonBlocksAtom,
   getInitialCommons,
 } from "../states/commonBlocksAtom";
+import { useEffect, useState } from "react";
+import enrichDomain from "../services/domain/enrichDomain";
 
 const SelectedDomain = () => {
   const selectedDomain = useAtomValue(selectedDomainAtom);
-  const domains = useAtomValue(domainsAtom);
-  if (selectedDomain) {
-    const initialDomain = { ...domains.find((d) => d.name === selectedDomain) };
-    const initialReport = getInitialReportStruct(initialDomain);
-    const initialCommons = getInitialCommons(initialDomain);
+  const [initialDomain, setInitialDomain] = useState();
+  const [initialReport, setInitialReport] = useState();
+  const [initialCommons, setInitialCommons] = useState();
+  useEffect(() => {
+    if (selectedDomain) {
+      import(`https://paramadeep.github.io/comparethem/domain.js`).then(
+        (module) => {
+          const domain = enrichDomain(module.default);
+          setInitialDomain(domain);
+          setInitialReport(getInitialReportStruct(domain));
+          setInitialCommons(getInitialCommons(domain));
+        }
+      );
+    }
+  }, [selectedDomain]);
+
+  if (selectedDomain && initialDomain && initialReport && initialCommons) {
     return (
       <Provider
         initialValues={[
