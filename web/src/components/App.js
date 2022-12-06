@@ -1,12 +1,12 @@
 import "../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import DomainSelector from "./DomainSelector";
+import DomainLoader from "./DomainLoader";
 import SelectedDomain from "./SelectedDomain";
 
 const App = () => {
   return (
     <>
-      <DomainSelector />
+      <DomainLoader />
       <SelectedDomain />
     </>
   );

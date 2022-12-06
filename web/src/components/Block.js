@@ -17,7 +17,7 @@ const Block = ({ blockAtom }) => {
   );
   const updateBlockAtom = useMemo(() => {
     return blockInputAtom(blockAtom);
-  }, [block.value, block.show]);
+  }, [blockAtom]);
   if (!block.show || commonBlockNames.includes(block.name)) {
     return <></>;
   }
