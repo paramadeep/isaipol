@@ -1,7 +1,6 @@
 import { atom } from "jotai";
 import { splitAtom } from "jotai/utils";
 
-export const domainNamesAtom = atom(["iceCream"]);
 export const selectedDomainAtom = atom();
 export const domainAtom = atom();
 

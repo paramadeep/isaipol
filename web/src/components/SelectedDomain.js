@@ -20,7 +20,8 @@ const SelectedDomain = () => {
   const [initialCommons, setInitialCommons] = useState();
   useEffect(() => {
     if (selectedDomain) {
-      import(`https://paramadeep.github.io/comparethem/domain.js`).then(
+      import(/* webpackIgnore: true */`http://localhost:3001/domain/${selectedDomain}`)
+        .then(
         (module) => {
           const domain = enrichDomain(module.default);
           setInitialDomain(domain);
