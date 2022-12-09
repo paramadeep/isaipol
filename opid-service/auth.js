@@ -4,16 +4,12 @@ import fs from 'fs'
 
 const configText = fs.readFileSync('./google-config.json').toString()
 const googleConfig = JSON.parse(configText)
-console.log(googleConfig)
 export const oauth2Client = new google.auth.OAuth2({
   clientId: googleConfig.web.client_id,
   clientSecret: googleConfig.web.client_secret,
   redirectUri: 'http://localhost:3000/oauth2callback',
 })
-console.log(oauth2Client)
-const scopes = [
-  'https://www.googleapis.com/auth/drive.metadata.readonly',
-]
+const scopes = ['https://www.googleapis.com/auth/drive.metadata.readonly']
 
 export const authorizationUrl = oauth2Client.generateAuthUrl({
   scope: scopes,
@@ -21,8 +17,10 @@ export const authorizationUrl = oauth2Client.generateAuthUrl({
 })
 
 export const getEmail = async (tokens) => {
-  const decoded = await oauth2Client.verifyIdToken({ idToken: tokens.id_token, audience: googleConfig.web.client_id })
-  console.log(decoded)
+  const decoded = await oauth2Client.verifyIdToken({
+    idToken: tokens.id_token,
+    audience: googleConfig.web.client_id,
+  })
   return decoded.payload.email
 }
 
