@@ -1,8 +1,14 @@
 import GoogleDriveLoader from "./GoogleDriveLoader";
 import { FileLoader } from "./FileLoader";
 import { Col, Container, Row } from "react-bootstrap";
+import { useAtomValue } from "jotai/utils";
+import { selectedDomainAtom } from "../states/domainAtom";
 
 const DomainLoader = () => {
+  const selectedDomain = useAtomValue(selectedDomainAtom);
+  if (selectedDomain){
+    return <></>;
+  }
  return (
    <Container  className="text-center fluid">
      <Row>
