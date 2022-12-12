@@ -1,4 +1,4 @@
-const iceCream = {
+export default {
   name: "ice cream bill",
   defaults: ["quantity", "coating", "finish"],
   customTopFields: [
@@ -44,5 +44,3 @@ const iceCream = {
   reportSpecs: ["side"],
   customFields: ["customer name"],
 };
-console.log("I am loaded");
-export default iceCream;

@@ -1,6 +1,7 @@
 import { atom } from "jotai";
 import { splitAtom } from "jotai/utils";
 import { updateAllLanesWithCommonValue } from "./updateCommonBlockAtom";
+import { domainAtom } from "./domainAtom";
 
 export const commonBlocksAtom = atom();
 export const commonBlockAtomsAtom = splitAtom(commonBlocksAtom);
@@ -8,12 +9,19 @@ export const commonBlockNamesAtom = atom((get) =>
   get(commonBlocksAtom).map((block) => block.name)
 );
 
+function updateDomainDefaults(get, set) {
+  const domain = { ...get(domainAtom) };
+  domain.defaults = get(commonBlockNamesAtom);
+  set(domainAtom, domain);
+}
+
 export const moveOutCommonBlockAtom = atom(null, (get, set, blockName) => {
   const commonBlocks = [...get(commonBlocksAtom)];
   set(
     commonBlocksAtom,
     commonBlocks.filter((block) => block.name !== blockName)
   );
+  updateDomainDefaults(get, set);
   const blockToUpdate = commonBlocks.find((block) => block.name === blockName);
   updateAllLanesWithCommonValue(
     get,
@@ -37,4 +45,5 @@ export const moveIntoCommonsAtom = atom(null, (get, set, block) => {
   commonBlocks.push({ name, type, input, value, show: true });
   set(commonBlocksAtom, commonBlocks);
   updateAllLanesWithCommonValue(get, block.name, block.value, set);
+  updateDomainDefaults(get, set)
 });

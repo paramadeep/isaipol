@@ -4,6 +4,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { domainAtom, laneAtomsAtom } from "../states/domainAtom";
 import Report from "./Report";
 import CommonBlocks from "./CommonBlocks";
+import SaveButton from "./SaveButton";
 
 const Domain = () => {
   const [laneAtoms, dispatch] = useAtom(laneAtomsAtom);
@@ -12,6 +13,7 @@ const Domain = () => {
   return (
     <Container>
       <div title={`lanes-${domain.lanes.map((l) => l.name).join("-")}`} />
+      <SaveButton/>
       <Report />
       <CommonBlocks />
       <Row style={{ flexWrap: "nowrap", overflowX: "auto" }}>

@@ -2,6 +2,7 @@ import { atom } from "jotai";
 import { splitAtom } from "jotai/utils";
 
 export const selectedDomainAtom = atom();
+export const rawDomainFileAtom = atom()
 export const domainAtom = atom();
 
 export const lanesAtom = atom(

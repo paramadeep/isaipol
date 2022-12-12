@@ -565,6 +565,9 @@ module.exports = function (webpackEnv) {
       gapi: "gapi",
       google: "google",
     },
+    resolve: {
+      fallback: { "os": false }
+    },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(

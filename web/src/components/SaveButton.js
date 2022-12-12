@@ -1,7 +1,9 @@
 import { Button } from "react-bootstrap";
 import { FaSave } from "react-icons/fa";
-import { domainAtom } from "../states/domainAtom";
 import { useAtomValue } from "jotai";
+import saveDomainAtom from "../states/saveDomainAtom";
+import { useEffect, useState } from "react";
+import { rawDomainFileAtom } from "../states/domainAtom";
 
 const saveFile = async (blob) => {
   try {
@@ -24,19 +26,23 @@ const saveFile = async (blob) => {
 };
 
 const SaveButton = () => {
-  const domain = useAtomValue(domainAtom);
+  const domain = useAtomValue(saveDomainAtom);
+  const saveDomain = ()=>{
+    const blob = new Blob([domain], {
+      type: "application/javascript",
+    });
+    saveFile(blob).catch(console.error)
+  }
+
   return (
-    <Button
-      className={"m-1"}
-      onClick={() => {
-        const blob = new Blob([JSON.stringify(domain, null, 2)], {
-          type: "application/json",
-        });
-        saveFile(blob);
-      }}
-    >
-      <FaSave />
-    </Button>
+    <>
+      <Button
+        className={"m-1"}
+        onClick={saveDomain}
+      >
+        <FaSave />
+      </Button>
+    </>
   );
 };
 

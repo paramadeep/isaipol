@@ -1,4 +1,4 @@
-import { useAtomValue } from "jotai/utils";
+import { useAtomValue, useUpdateAtom } from "jotai/utils";
 import { domainAtom, selectedDomainAtom } from "../states/domainAtom";
 import {
   getInitialReportStruct,
@@ -15,6 +15,9 @@ import enrichDomain from "../services/domain/enrichDomain";
 
 const SelectedDomain = () => {
   const selectedDomain = useAtomValue(selectedDomainAtom);
+  const setDomain = useUpdateAtom(domainAtom);
+  const setCommons = useUpdateAtom(commonBlocksAtom);
+  const setReport = useUpdateAtom(reportStructureAtom);
   const [initialDomain, setInitialDomain] = useState();
   const [initialReport, setInitialReport] = useState();
   const [initialCommons, setInitialCommons] = useState();
@@ -24,9 +27,12 @@ const SelectedDomain = () => {
         .then(
         (module) => {
           const domain = enrichDomain(module.default);
-          setInitialDomain(domain);
-          setInitialReport(getInitialReportStruct(domain));
-          setInitialCommons(getInitialCommons(domain));
+          setDomain(domain)
+          setInitialDomain(true)
+          setReport(getInitialReportStruct(domain));
+          setInitialReport(true)
+          setCommons(getInitialCommons(domain));
+          setInitialCommons(true)
         }
       );
     }
@@ -34,15 +40,7 @@ const SelectedDomain = () => {
 
   if (selectedDomain && initialDomain && initialReport && initialCommons) {
     return (
-      <Provider
-        initialValues={[
-          [domainAtom, initialDomain],
-          [reportStructureAtom, initialReport],
-          [commonBlocksAtom, initialCommons],
-        ]}
-      >
         <Domain />
-      </Provider>
     );
   }
 };

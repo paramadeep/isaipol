@@ -1,4 +1,5 @@
 import { atom } from "jotai";
+import { domainAtom } from "./domainAtom";
 
 export const getInitialReportStruct = (domain) => {
   const initialValue = [
@@ -29,6 +30,13 @@ export const getInitialReportStruct = (domain) => {
 };
 
 export const reportStructureAtom = atom();
+
+function updateDomain(get, set, domainField, atomToUpdate) {
+  const domain = { ...get(domainAtom) };
+  domain[domainField] = get(atomToUpdate);
+  set(domainAtom, domain);
+}
+
 export const reportValueAtom = atom(
   (get) => get(reportStructureAtom).find((f) => f.isValue).name,
   (get, set, { name }) => {
@@ -42,6 +50,7 @@ export const reportValueAtom = atom(
     fieldToUpdate.specIndex = null;
     fieldToUpdate.isSpec = false;
     set(reportStructureAtom, newStructure);
+    updateDomain(get, set,'reportValue',reportValueAtom);
   }
 );
 export const reportRowAtom = atom(
@@ -57,6 +66,7 @@ export const reportRowAtom = atom(
     fieldToUpdate.specIndex = null;
     fieldToUpdate.isSpec = false;
     set(reportStructureAtom, newStructure);
+    updateDomain(get, set,'reportRow',reportRowAtom);
   }
 );
 export const reportGroupAtom = atom(
@@ -90,6 +100,7 @@ export const reportGroupAtom = atom(
       field.groupIndex = index;
     });
     set(reportStructureAtom, newStructure);
+    updateDomain(get, set,'reportGroup',reportGroupAtom);
   }
 );
 export const reportUnusedAtom = atom(
@@ -141,5 +152,6 @@ export const reportSpecsAtom = atom(
       field.specIndex = index;
     });
     set(reportStructureAtom, newStructure);
+    updateDomain(get, set,'reportSpecs',reportSpecsAtom);
   }
 );

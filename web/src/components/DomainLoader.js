@@ -6,9 +6,6 @@ import { selectedDomainAtom } from "../states/domainAtom";
 
 const DomainLoader = () => {
   const selectedDomain = useAtomValue(selectedDomainAtom);
-  if (selectedDomain){
-    return <></>;
-  }
  return (
    <Container  className="text-center fluid">
      <Row>

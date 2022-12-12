@@ -3,20 +3,33 @@ import { FaFile } from "react-icons/fa";
 import { useRef } from "react";
 import axios from "axios";
 import { useUpdateAtom } from "jotai/utils";
-import { selectedDomainAtom } from "../states/domainAtom";
+import { rawDomainFileAtom, selectedDomainAtom } from "../states/domainAtom";
 
 export const FileLoader = () => {
   const fileInputRef = useRef();
   const setSelectedDomain = useUpdateAtom(selectedDomainAtom)
+  const setRawDomain = useUpdateAtom(rawDomainFileAtom);
   const loadLocalFile = () => {
       fileInputRef.current.click()
   };
+  const reader = new FileReader();
+  reader.addEventListener('load', function (e) {
+    const fileContent = e.target.result;
+    console.log(fileContent);
+    setRawDomain(fileContent)
+    updateDomainToServer();
+  });
+
+  function updateDomainToServer() {
+    axios.postForm("http://localhost:3001/local-file", {
+      "file": fileInputRef.current.files[0]
+    }).then((resp) => {
+      setSelectedDomain(resp.data.domainRef);
+    });
+  }
+
   const handleFileSelection = async ()=>{
-    axios.postForm('http://localhost:3001/local-file', {
-      'file': fileInputRef.current.files[0]
-    }).then((resp)=>{
-      setSelectedDomain(resp.data.domainRef)
-    })
+    reader.readAsBinaryString(fileInputRef.current.files[0]);
   }
 
   return <div>
