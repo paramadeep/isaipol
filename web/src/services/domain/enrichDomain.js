@@ -65,9 +65,11 @@ function loadSavedDomain(domain) {
   const savedDomain = domain.savedDomain
   const baseBlocks = domain.blocks;
   savedDomain.lanes.forEach((lane)=> {
-    lane.blocks.forEach((block)=>{
-      block = {...baseBlocks,value:block.value,show:block.show}
+    const newBlocks = lane.blocks.map((block)=>{
+      const baseBlock = baseBlocks.find(baseBlock => baseBlock.name === block.name)
+      return {...baseBlock,value:block.value,show:block.show}
     });
+    lane.blocks = newBlocks
   })
   return {...savedDomain, blocks: baseBlocks}
 }

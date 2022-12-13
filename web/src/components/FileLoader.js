@@ -15,7 +15,6 @@ export const FileLoader = () => {
   const reader = new FileReader();
   reader.addEventListener('load', function (e) {
     const fileContent = e.target.result;
-    console.log(fileContent);
     setRawDomain(fileContent)
     updateDomainToServer();
   });
