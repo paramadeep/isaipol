@@ -11,7 +11,7 @@ export const commonBlockNamesAtom = atom((get) =>
 
 function updateDomainDefaults(get, set) {
   const domain = { ...get(domainAtom) };
-  domain.defaults = get(commonBlockNamesAtom);
+  domain.commons = get(commonBlockNamesAtom);
   set(domainAtom, domain);
 }
 
@@ -31,13 +31,18 @@ export const moveOutCommonBlockAtom = atom(null, (get, set, blockName) => {
   );
 });
 
-export const getInitialCommons = (domain) =>
-  domain.lanes[0].blocks
-    .filter((block) => block.isDefault)
+export const getInitialCommons = (domain) => {
+  if (!domain.commons){
+    domain.commons = []
+    return []
+  }
+  return domain.lanes[0].blocks
+    .filter((block) => domain.commons.includes(block.name))
     .map((block) => {
       const { name, type, input, value } = block;
       return { name, type, input, value, show: true };
     });
+};
 
 export const moveIntoCommonsAtom = atom(null, (get, set, block) => {
   const commonBlocks = [...get(commonBlocksAtom)];
