@@ -4,7 +4,6 @@ import {
   getInitialReportStruct,
   reportStructureAtom,
 } from "../states/reportAtom";
-import { Provider } from "jotai";
 import Domain from "./Domain";
 import {
   commonBlocksAtom,

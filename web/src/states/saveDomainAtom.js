@@ -9,12 +9,13 @@ const saveDomainAtom =  atom(get=>{
     console.log("empty :(");
     return ""
   }
-  console.log(rawDomainFile);
-  const fileAst = parse(rawDomainFile);
+  const fileAst = parse(rawDomainFile,{
+    parser: require("@babel/parser")
+  });
   const domainAst = parse(`export default { savedDomain:   ${JSON.stringify(domain)} }`);
   console.log(fileAst.program.body[0]);
   const domainObjectAst = domainAst.program.body[0].declaration.properties[0]
-  fileAst.program.body[0].declaration.properties.push(domainObjectAst)
+  fileAst.program.body.find(n=>n.type === 'ExportDefaultDeclaration').declaration.properties.push(domainObjectAst)
   return print(fileAst).code
 })
 export default saveDomainAtom;

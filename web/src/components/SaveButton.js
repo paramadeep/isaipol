@@ -2,8 +2,6 @@ import { Button } from "react-bootstrap";
 import { FaSave } from "react-icons/fa";
 import { useAtomValue } from "jotai";
 import saveDomainAtom from "../states/saveDomainAtom";
-import { useEffect, useState } from "react";
-import { rawDomainFileAtom } from "../states/domainAtom";
 
 const saveFile = async (blob) => {
   try {
