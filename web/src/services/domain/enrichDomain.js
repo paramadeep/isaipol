@@ -58,11 +58,25 @@ const addBaseLane = (domain) => {
   }
 };
 
+function loadSavedDomain(domain) {
+  if (!domain.savedDomain){
+    return domain
+  }
+  const savedDomain = domain.savedDomain
+  const baseBlocks = domain.blocks;
+  savedDomain.lanes.forEach((lane)=> {
+    lane.blocks.forEach((block)=>{
+      block = {...baseBlocks,value:block.value,show:block.show}
+    });
+  })
+  return {...savedDomain, blocks: baseBlocks}
+}
+
 const enrichDomain = (domain) => {
   enrichDomainBlocks(domain);
   updateDefaultBlocks(domain);
   updateInitialOutput(domain);
   addBaseLane(domain);
-  return domain;
+  return loadSavedDomain(domain) ;
 };
 export default enrichDomain;

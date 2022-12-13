@@ -20,7 +20,7 @@ const ReportGroup = ({ dropId }) => {
             >
               {reportGroup.map((item, index) => (
                 <>
-                  <Draggable key={item} draggableId={item} index={index}>
+                  <Draggable key={index} draggableId={item} index={index}>
                     {(provided) => (
                       <Badge
                         className="m-2"
