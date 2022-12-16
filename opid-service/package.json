@@ -6,7 +6,6 @@
     "@babel/core": "^7.16.0",
     "@googleapis/drive": "^4.0.0",
     "babel-jest": "^27.4.2",
-    "babel-loader": "^8.2.3",
     "babel-plugin-named-asset-import": "^0.3.8",
     "bfj": "^7.0.2",
     "body-parser": "^1.20.1",
@@ -15,8 +14,6 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "dotenv-expand": "^5.1.0",
-    "eslint": "8.22.0",
-    "eslint-webpack-plugin": "^3.1.1",
     "express": "^4.18.2",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",
@@ -27,11 +24,16 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "prompts": "^2.4.2",
-    "webpack": "^5.64.4",
+    "webpack": "^5.75.0",
     "webpack-dev-server": "^4.6.0"
   },
+  "bin": "./dist/index.js",
   "scripts": {
-    "start": "babel-node --presets='@babel/preset-env' --ignore='foo|bar|baz' ./index.js"
+    "start": "babel-node --presets='@babel/preset-env' ./index.js",
+    "build": "rm -rf dist; webpack",
+    "build-web": "cd ../web/; yarn build; cd -",
+    "copy-web": "yarn build-web; rm -rf build; cp -r ../web/build ./",
+    "pack": "rm -rf package;pkg -c pkg.json -o package/opid -C GZip dist/index.js"
   },
   "eslintConfig": {
     "presets": [
@@ -96,11 +98,19 @@
   },
   "devDependencies": {
     "@babel/node": "^7.20.5",
+    "babel-loader": "^9.1.0",
+    "copy-webpack-plugin": "^11.0.0",
     "eslint": "^7.32.0 || ^8.2.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.2",
+    "eslint-webpack-plugin": "^3.1.1",
+
     "nodemon": "^2.0.20",
-    "prettier": "2.7.1"
+    "pkg": "^5.8.0",
+    "prettier": "2.7.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-node-externals": "^3.0.0"
   }
 }

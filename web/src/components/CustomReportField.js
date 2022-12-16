@@ -10,7 +10,7 @@ const CustomReportField = ({ customFieldAtom }) => {
   return (
     <FloatingLabel label={customTopField.name}>
       <Form.Control
-        type="text"
+        type="textarea"
         value={customTopField.value}
         onChange={(e) => update(e.target.value)}
       />

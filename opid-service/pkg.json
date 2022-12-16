@@ -1,0 +1,7 @@
+{
+  "assets": "build/**/*",
+  "targets": [
+    "node18-mac-x64",
+    "node18-win-x64"
+  ]
+}
