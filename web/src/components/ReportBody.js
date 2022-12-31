@@ -37,6 +37,8 @@ const ReportBody = () => {
     const { inputs, output } = computeLane(lane);
     return { ...inputs, ...output };
   });
+  const tableHeaderStyle = { overflowWrap: "normal" };
+
   const headerValues = reportGroup.map((field) => ({
     field,
     values: [...new Set(computedValues.map((val) => val[field]))],
@@ -129,21 +131,24 @@ const ReportBody = () => {
               bordered={true}
               striped={true}
               className="text-center"
+              responsive={true}
             >
               <thead>
                 {headerValues.map((group, index) => (
                   <tr key={index}>
-                    <th>{group.field}</th>
-                    {group.actualValues.map((value, index) => (
-                      <th key={index} colSpan={group.colSpan}>
-                        {value}
-                      </th>
-                    ))}
+                    <th style={tableHeaderStyle}>{group.field.replaceAll("_"," ")}</th>
+                    {group.actualValues.map((value, index) => {
+                      return (
+                        <th key={index} colSpan={group.colSpan} style={tableHeaderStyle}>
+                          {value}
+                        </th>
+                      );
+                    })}
                   </tr>
                 ))}
                 <tr>
-                  <th>{reportRow}</th>
-                  <th colSpan={previousColCount}>{reportValue}</th>
+                  <th style={tableHeaderStyle}>{reportRow.replaceAll("_"," ")}</th>
+                  <th colSpan={previousColCount} style={tableHeaderStyle}>{reportValue.replaceAll("_"," ")}</th>
                 </tr>
               </thead>
               <tbody>
