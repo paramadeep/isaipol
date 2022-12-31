@@ -37,7 +37,7 @@ const ReportBody = () => {
     const { inputs, output } = computeLane(lane);
     return { ...inputs, ...output };
   });
-  const tableHeaderStyle = { overflowWrap: "normal" };
+  const tableHeaderStyle = { overflowWrap: "anywhere" };
 
   const headerValues = reportGroup.map((field) => ({
     field,
