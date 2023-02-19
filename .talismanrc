@@ -1,8 +1,8 @@
 fileignoreconfig:
 - filename: opid-service/auth.js
   checksum: 88e3448926d031cdf985614ee2849b38d31dfa5424e8bd3709b7ae6fc7f975c7
-- filename: yarn.lock
-  checksum: b2e9cadbbaf07eb94f8d5a12bad9938538da712c2dd4627071e4ded881a5ffbc
 - filename: web/src/components/ReportGroup.js
   checksum: 2b663707e5f06cbb8b742fbe15a40ae65f0e2de48f12500746be115c7c2880a5
+- filename: yarn.lock
+  checksum: acf6784af7ac77a1708b0183df8243934af687861fbf03454f00f590317b7e
 version: ""

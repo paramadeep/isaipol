@@ -33,75 +33,86 @@ const ReportBody = () => {
   const reportValue = useAtomValue(reportValueAtom);
   const reportRow = useAtomValue(reportRowAtom);
   const reportGroup = useAtomValue(reportGroupAtom);
-  const computedValues = domain.lanes.map((lane) => {
+  const lanes = domain.lanes.map((lane) => {
     const { inputs, output } = computeLane(lane);
     return { ...inputs, ...output };
   });
   const tableHeaderStyle = { overflowWrap: "anywhere" };
+  const headerValues = []
+  const rowValues = []
+  const uniqRowHeaders = [...new Set(lanes.map(lane=>lane[reportRow]))]
+  const lanesGroupByReportRow = uniqRowHeaders.map(rowHeader => ({rowHeader, matchingLanes:lanes.filter(lane=>lane[reportRow] && lane[reportRow]===rowHeader)}))
+  const availableGroupValues = reportGroup.map((group)=> ({
+    group,
+    actualValues: [...new Set(lanes.map(lane=>lane[group]))]
+  }))
+  lanesGroupByReportRow.forEach(laneGroup => {
 
-  const headerValues = reportGroup.map((field) => ({
-    field,
-    values: [...new Set(computedValues.map((val) => val[field]))],
-  }));
-  const columCount = headerValues.reduce(
-    (init, group) => init * group.values.length,
-    1
-  );
-  let previousColCount = 1;
-  headerValues.forEach((header) => {
-    header.colSpan = columCount / (header.values.length * previousColCount);
-    header.actualValues = [...header.values];
-    for (let i = 1; i < previousColCount; i++) {
-      header.actualValues = [...header.actualValues, ...header.values];
-    }
-    previousColCount = header.values.length * previousColCount;
-  });
-  let groupFilters = [];
-  headerValues.forEach((header) => {
-    const headerFilters = header.values.map((value) => ({
-      field: header.field,
-      value,
-    }));
-    if (groupFilters.length === 0) {
-      groupFilters = headerFilters.map((filter) => [filter]);
-      return;
-    }
-    const combinedFilters = [];
-    for (const filter of groupFilters) {
-      for (const localFilter of headerFilters) {
-        combinedFilters.push([localFilter, ...filter]);
-      }
-    }
-    groupFilters = [...combinedFilters];
-  });
-  const rows = [...new Set(computedValues.map((val) => val[reportRow]))];
-  const rowFilters = rows.map((row) => ({
-    field: reportRow,
-    value: row,
-  }));
-  const rowValues = rowFilters.map((rowFilter) => {
-    const filteredVals = computedValues.filter(
-      (val) => val[rowFilter.field].toString() === rowFilter.value.toString()
-    );
-    let values;
-    if (groupFilters.length === 0) {
-      values = [getRowValue(filteredVals, reportValue)];
-    } else {
-      values = groupFilters.map((filters) => {
-        let localVals = [...filteredVals];
-        filters.forEach((filter) => {
-          localVals = localVals.filter(
-            (val) =>
-              filter.value &&
-              filter &&
-              val[filter.field].toString() === filter.value.toString()
-          );
-        });
-        return getRowValue(localVals, reportValue);
-      });
-    }
-    return { field: rowFilter.value, values };
-  });
+  })
+  // const headerValues = reportGroup.map((field) => ({
+  //   field,
+  //   values: [...new Set(computedValues.map((val) => val[field]))],
+  // }));
+  // const columCount = headerValues.reduce(
+  //   (init, group) => init * group.values.length,
+  //   1
+  // );
+  // let previousColCount = 1;
+  // headerValues.forEach((header) => {
+  //   header.colSpan = columCount / (header.values.length * previousColCount);
+  //   header.actualValues = [...header.values];
+  //   for (let i = 1; i < previousColCount; i++) {
+  //     header.actualValues = [...header.actualValues, ...header.values];
+  //   }
+  //   previousColCount = header.values.length * previousColCount;
+  // });
+  // let groupFilters = [];
+  // headerValues.forEach((header) => {
+  //   const headerFilters = header.values.map((value) => ({
+  //     field: header.field,
+  //     value,
+  //   }));
+  //   if (groupFilters.length === 0) {
+  //     groupFilters = headerFilters.map((filter) => [filter]);
+  //     return;
+  //   }
+  //   const combinedFilters = [];
+  //   for (const filter of groupFilters) {
+  //     for (const localFilter of headerFilters) {
+  //       combinedFilters.push([localFilter, ...filter]);
+  //     }
+  //   }
+  //   groupFilters = [...combinedFilters];
+  // });
+  // const rows = [...new Set(computedValues.map((val) => val[reportRow]))];
+  // const rowFilters = rows.map((row) => ({
+  //   field: reportRow,
+  //   value: row,
+  // }));
+  // const rowValues = rowFilters.map((rowFilter) => {
+  //   const filteredVals = computedValues.filter(
+  //     (val) => val[rowFilter.field].toString() === rowFilter.value.toString()
+  //   );
+  //   let values;
+  //   if (groupFilters.length === 0) {
+  //     values = [getRowValue(filteredVals, reportValue)];
+  //   } else {
+  //     values = groupFilters.map((filters) => {
+  //       let localVals = [...filteredVals];
+  //       filters.forEach((filter) => {
+  //         localVals = localVals.filter(
+  //           (val) =>
+  //             filter.value &&
+  //             filter &&
+  //             val[filter.field].toString() === filter.value.toString()
+  //         );
+  //       });
+  //       return getRowValue(localVals, reportValue);
+  //     });
+  //   }
+  //   return { field: rowFilter.value, values };
+  // });
+
   let componentRef = useRef();
   return (
     <>
