@@ -14,9 +14,9 @@ export const reportGraphAtom = atom((get)=>{
       const { inputs, output } = computeLane(lane);
       return { ...inputs, ...output };
     });
-  const titles = [...reportGroup,reportRow]
+  const titles = [...reportGroup,reportRow,reportValue]
   const graph = computeGraph(lanes, titles);
-  return {titles,graph,reportValue}
+  return {titles,graph}
 })
 
 
