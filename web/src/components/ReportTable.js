@@ -8,7 +8,7 @@ import { computeNoOfLeafNodes, getNthLayer } from "../services/graph";
 export const ReportTable = ({ titles, graph, rowName, valueName }) => {
   console.log("graph");
   console.log(JSON.stringify(graph));
-  let tableHeaderStyle = {};
+  const tableHeaderStyle = { overflowWrap: "anywhere" };
   const rowLayer = getNthLayer(graph,titles.length);
   if (rowLayer.length === 0) {
     return <></>
